@@ -127,6 +127,19 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, 'static'),
 )
 
+# Redis settings
+redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
+CACHES = {
+    "default": {
+         "BACKEND": "redis_cache.RedisCache",
+         "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
+         "OPTIONS": {
+             "PASSWORD": redis_url.password,
+             "DB": 0,
+         }
+    }
+}
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

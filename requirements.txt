@@ -17,3 +17,4 @@ static3==0.6.1
 suds==0.4
 whitenoise==2.0.4
 psycopg2==2.6.1
+django-redis-cache==1.6.0
