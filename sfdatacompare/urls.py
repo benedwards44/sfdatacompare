@@ -18,6 +18,7 @@ from django.contrib import admin
 from comparedata import views
 
 urlpatterns = [
+	url(r'^admin/', include(admin.site.urls)),
 	url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^admin/', include(admin.site.urls)),
+	url(r'^oauth_response/$', views.OAuthResponse.as_view(), name='oauth_response'),
 ]
