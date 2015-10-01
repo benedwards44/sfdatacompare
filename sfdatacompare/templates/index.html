@@ -7,7 +7,7 @@
 		This tool uses the Salesforce REST API to query objects in your databases and compare data between two Orgs. This is useful for post-data migrations to ensure that the data is migrated successfully and all rows match. It also allows for reference tables and custom settings to be matched and managed.
 	</p>
 	<p>
-		None of your organisation information or data is captured or kept from running this tool. Becasue this tool is querying data in your Salesforce Org, if you are running on behalf of a client or do not own the data, it is important to ensure people are aware that another cloud-based tool is accessing your Salesforce data.
+		None of your organisation information or data is captured or kept from running this tool. Because this tool is querying data in your Salesforce Org, if you are running on behalf of a client or do not own the data, it is important to ensure people are aware that another cloud-based tool is accessing your Salesforce data.
 	</p>
 	<p>
 		Note: You will need to be a System Administrator on both Orgs in order to use this application.
@@ -116,6 +116,11 @@
 			{% csrf_token %}
 
 			<div style="clear:both;margin: 5px 0;"></div>
+
+			<input type="hidden" id="client_id" value="{{ client_id }}" />
+			<input type="hidden" id="redirect_uri" value="{{ redirect_uri }}" />
+			<input type="hidden" id="id_org_one" name="org_one" />
+			<input type="hidden" id="id_org_two" name="org_two" />
 
 			<input type="submit" value="Begin Compare" />
 
