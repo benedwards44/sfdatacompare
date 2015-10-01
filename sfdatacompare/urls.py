@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from comparedata import views
 
 urlpatterns = [
-	url(r'^$', 'comparedata.views.index', name='index'),
+	url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^admin/', include(admin.site.urls)),
 ]
