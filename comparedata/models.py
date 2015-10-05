@@ -34,3 +34,32 @@ class Org(models.Model):
 	error = models.TextField(blank=True)
 
 
+class Object(models.Model):
+	"""
+		Object to hold the defaults of a Salesforce object
+	"""
+
+	job = models.ForeignKey(Job)
+	label = models.CharField(max_length=255)
+	api_name = models.CharField(max_length=255)
+	order_by = models.CharField(max_length=255)
+
+
+class ObjectField(models.Model):
+	"""
+		Object which holds the list of fields for the comparison
+	"""
+
+	object = models.ForeignKey(Object)
+	label = models.CharField(max_length=255)
+	api_name = models.CharField(max_length=255)
+
+
+"""
+class DataRow(models.Model):
+	
+		Object to hold the physical data queried from the system
+	"""
+
+
+
