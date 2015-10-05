@@ -128,8 +128,7 @@ class OAuthResponse(View):
 				instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/User/' + user_id + '?fields=Username,Email', 
 				headers={
 					'Authorization': 'OAuth ' + access_token
-				}
-			)
+				})
 			
 			if 'errorCode' in r.text:
 
@@ -146,8 +145,7 @@ class OAuthResponse(View):
 					instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/Organization/' + org_id + '?fields=Name', 
 					headers={
 						'Authorization': 'OAuth ' + access_token
-					}
-				)
+					})
 				
 				if 'errorCode' in r.text:
 
