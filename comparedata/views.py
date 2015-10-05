@@ -79,6 +79,12 @@ class OAuthResponse(View):
 		access_token = ''
 		instance_url = ''
 		org_id = ''
+		error_exists = False
+		error_message = ''
+		username = ''
+		email = ''
+		org_name = ''
+		org = Org()
 
 		if 'Production' in environment:
 
