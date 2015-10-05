@@ -1,11 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.views.generic.detail import View
 from django.conf import settings
 from comparedata.forms import JobForm
+from comparedata.models import Job, Org, Object, ObjectField
+from django.http import HttpResponse, HttpResponseRedirect
 
 import sys
 import datetime
 import uuid
+import requests
+import json	
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
