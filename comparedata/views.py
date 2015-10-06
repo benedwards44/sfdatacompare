@@ -24,6 +24,7 @@ class IndexView(FormView):
 
 	template_name = 'index.html'
 	form_class = JobForm
+	success_url = '/test/'
 
 	# When view is called via GET
 	def get(self, request, *args, **kwargs):
@@ -55,11 +56,10 @@ class IndexView(FormView):
 		org_two.job = job
 		org_two.save()
 
-		return HttpResponseRedirect('/query-objects/' + str(job.random_id))
+		#return HttpResponseRedirect('/query-objects/' + str(job.random_id))
+		return super(IndexView, self).form_valid(form)
 
 	
-
-
 class OAuthResponse(View):
 	"""
 		OAuth Response Controller
