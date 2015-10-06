@@ -1,9 +1,11 @@
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.views.generic.detail import View
+from django.views.generic.edit import FormView
 from django.conf import settings
 from comparedata.forms import JobForm
 from comparedata.models import Job, Org, Object, ObjectField
 from django.http import HttpResponse, HttpResponseRedirect
+
 
 import sys
 import datetime
@@ -15,12 +17,13 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
-class IndexView(View):
+class IndexView(FormView):
 	"""
 		Home Page Controller
 	"""
 
 	template_name = 'index.html'
+	form_class = JobForm
 
 	# When view is called via GET
 	def get(self, request, *args, **kwargs):
@@ -31,36 +34,30 @@ class IndexView(View):
 			'job_form': JobForm()
 		})
 
-	# When the form view is posted
-	def post(self, request, *args, **kwargs):
+	# Valid form posting
+	def form_valid(self, form):
 
-		# Get the posted form details
-		form = JobForm(request.POST)
+		# Create the job record
+		job = Job()
+		job.random_id = uuid.uuid4()
+		job.created_date = datetime.datetime.now()
+		job.status = 'Not Started'
+		job.email = form.cleaned_data['email']
+		job.save()
 
-		if form.is_valid():
+		# Create org one record
+		org_one = Org.objects.get(pk = form.cleaned_data['org_one'])
+		org_one.job = job
+		org_one.save()
 
-			# Create the job record
-			job = Job()
-			job.random_id = uuid.uuid4()
-			job.created_date = datetime.datetime.now()
-			job.status = 'Not Started'
-			job.email = form.cleaned_data['email']
-			job.save()
+		# Create org two record
+		org_two = Org.objects.get(pk = form.cleaned_data['org_two'])
+		org_two.job = job
+		org_two.save()
 
-			# Create org one record
-			org_one = Org.objects.get(pk = form.cleaned_data['org_one'])
-			org_one.job = job
-			org_one.save()
+		return HttpResponseRedirect('/query-objects/' + str(job.random_id))
 
-			# Create org two record
-			org_two = Org.objects.get(pk = form.cleaned_data['org_two'])
-			org_two.job = job
-			org_two.save()
-
-			return HttpResponseRedirect('/query-objects/' + str(job.random_id))
-
-		return super(IndexView, self).post(request, *args, **kwargs)
-
+	
 
 
 class OAuthResponse(View):
