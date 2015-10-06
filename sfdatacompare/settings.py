@@ -26,8 +26,6 @@ SECRET_KEY = '%5p4$z7)d$urxka+rn%*v2k(+nf-rle*l2swxm+6jqbcetgqrs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-THUMBNAIL_DEBUG = DEBUG
 
 ADMINS = (
     ('Ben Edwards', 'ben@benedwards.co.nz'),
@@ -77,6 +75,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'debug': DEBUG,
         },
     },
 ]

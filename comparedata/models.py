@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Job(models.Model):
 	"""
 		Object to handle a job and relevant settings
