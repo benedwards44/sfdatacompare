@@ -105,8 +105,7 @@ class OAuthResponse(View):
 				'client_secret': settings.SALESFORCE_CONSUMER_SECRET,
 				'redirect_uri': settings.SALESFORCE_REDIRECT_URI,
 				'code': oauth_code
-			}
-		)
+			})
 
 		auth_response = json.loads(r.text)
 
