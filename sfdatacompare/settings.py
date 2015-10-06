@@ -37,7 +37,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -138,6 +137,7 @@ CACHES = {
          }
     }
 }
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
