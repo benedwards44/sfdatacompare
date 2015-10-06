@@ -113,7 +113,7 @@ POSTMARK_TRACK_OPENS = False
 # SALESFORCE KEYS
 SALESFORCE_CONSUMER_KEY = os.environ['SALESFORCE_CONSUMER_KEY']
 SALESFORCE_CONSUMER_SECRET = os.environ['SALESFORCE_CONSUMER_SECRET']
-SALESFORCE_REDIRECT_URI = 'https://sfdatacompare.herokuapp.com/oauth_response'
+SALESFORCE_REDIRECT_URI = 'https://sfdatacompare.herokuapp.com/oauth-response'
 SALESFORCE_API_VERSION = int(os.environ['SALESFORCE_API_VERSION'])
 
 # Static files (CSS, JavaScript, Images)

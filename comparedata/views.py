@@ -57,7 +57,7 @@ class IndexView(View):
 			org_two.job = job
 			org_two.save()
 
-			return HttpResponseRedirect('/run_job/' + str(job.random_id))
+			return HttpResponseRedirect('/query-objects/' + str(job.random_id))
 
 		return super(IndexView, self).post(request, *args, **kwargs)
 
@@ -109,8 +109,6 @@ class OAuthResponse(View):
 		)
 
 		auth_response = json.loads(r.text)
-
-		print auth_response
 
 		if 'error_description' in auth_response:
 
@@ -189,3 +187,62 @@ class OAuthResponse(View):
 			'email': email, 
 			'instance_url': instance_url
 		})
+
+
+class QueryObjects(View):
+	"""
+		Query Objects loading page
+	"""
+
+	template_name = 'query_objects.html'
+
+	# When view is called via GET
+	def get(self, request, *args, **kwargs):
+
+		job = get_object_or_404(Job, random_id = self.kwargs['job_id'])
+
+		if job.status == 'Not Started':
+
+			job.status = 'Downloading Objects'
+			job.save()
+
+			# Do stuff
+
+		elif job.status == 'Finished':
+
+			return HttpResponseRedirect('/select-object/' + str(job.random_id) + '/')
+
+		return render(request, self.template_name, {
+			'job': job
+		})
+
+
+class SelectObject(View):
+	"""
+		Select Object Controller
+	"""
+
+	template_name = 'select_object.html'
+
+	# When view is called via GET
+	def get(self, request, *args, **kwargs):
+
+		job = get_object_or_404(Job, random_id = self.kwargs['job_id'])
+
+		return render(request, self.template_name, {
+			'job': job
+		})
+
+
+# AJAX endpoint for page to constantly check if job is finished
+def job_status(request, job_id):
+
+	job = get_object_or_404(Job, random_id = job_id)
+
+	response_data = {
+		'status': job.status,
+		'error': job.error
+	}
+
+	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
+

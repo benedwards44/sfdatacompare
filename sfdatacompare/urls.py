@@ -20,5 +20,8 @@ from comparedata import views
 urlpatterns = [
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^$', views.IndexView.as_view(), name='index'),
-	url(r'^oauth_response/$', views.OAuthResponse.as_view(), name='oauth_response'),
+	url(r'^oauth-response/$', views.OAuthResponse.as_view(), name='oauth_response'),
+    url(r'^query-objects/(?P<job_id>[0-9A-Za-z_\-]+)/$', views.QueryObjects.as_view(), name='query_objects'),
+    url(r'^select-object/(?P<job_id>[0-9A-Za-z_\-]+)/$', views.SelectObject.as_view(), name='select_object'),
+    url(r'^job-status/(?P<job_id>[0-9A-Za-z_\-]+)/$', 'comparedata.views.job_status'),
 ]
