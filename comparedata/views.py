@@ -56,8 +56,7 @@ class IndexView(FormView):
 		org_two.job = job
 		org_two.save()
 
-		#return HttpResponseRedirect('/query-objects/' + str(job.random_id))
-		return super(IndexView, self).form_valid(form)
+		return HttpResponseRedirect('/query-objects/' + str(job.random_id))
 
 	
 class OAuthResponse(View):
