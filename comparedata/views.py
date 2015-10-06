@@ -24,15 +24,13 @@ class IndexView(FormView):
 
 	template_name = 'index.html'
 	form_class = JobForm
-	success_url = '/test/'
 
 	# When view is called via GET
 	def get(self, request, *args, **kwargs):
 		
 		return render(request, self.template_name, {
 			'client_id': settings.SALESFORCE_CONSUMER_KEY,
-			'redirect_uri': settings.SALESFORCE_REDIRECT_URI,
-			'job_form': JobForm()
+			'redirect_uri': settings.SALESFORCE_REDIRECT_URI
 		})
 
 	# Valid form posting
@@ -43,7 +41,6 @@ class IndexView(FormView):
 		job.random_id = uuid.uuid4()
 		job.created_date = datetime.datetime.now()
 		job.status = 'Not Started'
-		job.email = form.cleaned_data['email']
 		job.save()
 
 		# Create org one record

@@ -9,9 +9,6 @@ class Job(models.Model):
 	random_id = models.CharField(db_index=True,max_length=255, blank=True)
 	created_date = models.DateTimeField(null=True,blank=True)
 	finished_date = models.DateTimeField(null=True,blank=True)
-	password = models.CharField(max_length=255, blank=True)
-	email_result = models.BooleanField()
-	email = models.CharField(max_length=255,blank=True)
 	status = models.CharField(max_length=255, blank=True)
 	error = models.TextField(blank=True)
 
