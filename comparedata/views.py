@@ -94,8 +94,23 @@ class OAuthResponse(View):
 
 			login_url = 'https://test.salesforce.com'
 		
-		r = requests.post(login_url + '/services/oauth2/token', headers={ 'content-type':'application/x-www-form-urlencoded'}, data={'grant_type':'authorization_code','client_id': settings.SALESFORCE_CONSUMER_KEY,'client_secret':settings.SALESFORCE_CONSUMER_SECRET,'redirect_uri': settings.SALESFORCE_REDIRECT_URI,'code': oauth_code})
+		r = requests.post(
+			login_url + '/services/oauth2/token', 
+			headers={
+				'content-type':'application/x-www-form-urlencoded'
+			}, 
+			data={
+				'grant_type':'authorization_code',
+				'client_id': settings.SALESFORCE_CONSUMER_KEY,
+				'client_secret': settings.SALESFORCE_CONSUMER_SECRET,
+				'redirect_uri': settings.SALESFORCE_REDIRECT_URI,
+				'code': oauth_code
+			}
+		)
+
 		auth_response = json.loads(r.text)
+
+		print auth_response
 
 		if 'error_description' in auth_response:
 
@@ -111,7 +126,12 @@ class OAuthResponse(View):
 			org_id = org_id[-18:]
 
 			# get username of the authenticated user
-			r = requests.get(instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/User/' + user_id + '?fields=Username,Email', headers={'Authorization': 'OAuth ' + access_token})
+			r = requests.get(
+				instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/User/' + user_id + '?fields=Username,Email', 
+				headers={
+					'Authorization': 'OAuth ' + access_token
+				}
+			)
 			
 			if 'errorCode' in r.text:
 
@@ -124,7 +144,12 @@ class OAuthResponse(View):
 				email = r.json()['Email']
 
 				# get the org name of the authenticated user
-				r = requests.get(instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/Organization/' + org_id + '?fields=Name', headers={'Authorization': 'OAuth ' + access_token})
+				r = requests.get(
+					instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/Organization/' + org_id + '?fields=Name', 
+					headers={
+						'Authorization': 'OAuth ' + access_token
+					}
+				)
 				
 				if 'errorCode' in r.text:
 
