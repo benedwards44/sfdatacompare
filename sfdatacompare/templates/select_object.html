@@ -18,7 +18,7 @@
 	</div>
 
 	<div class="col-md-6">
-		<select class="form-control">
+		<select class="form-control" id="object-select">
 			<option value="">-- Select Option --</option>
 			{% for object in job.sorted_objects %}
 				<option value="{{ object.api_name }}">{{ object.label }} ({{ object.api_name }})</option>
@@ -26,11 +26,41 @@
 		</select>
 	</div>
 
-	<div class="col-md-12" class="field-select">
+	<div class="col-md-12" class="field-select"></div>
 
-		
-
-
+	<div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	    	<div class="modal-content">
+	      		<div class="modal-header"></div>
+	      		<div class="modal-body"></div>
+	      		<div class="modal-footer"></div>
+	    	</div>
+	  	</div>
 	</div>
 
+{% endblock %}
+
+{% block scripts %}
+
+	<script type="text/javascript" src="/static/js/select-object.js"></script>
+	<script type="text/javascript" src="/static/js/cookie.js"></script>
+
+	<script type="text/javascript">
+
+		$('#object-select').change(function () {
+
+			if ( $(this).val() != null && $(this).val() != '' ) {
+
+
+				alert('GO GO GO');
+
+			}
+			else {
+
+				$('.field-select').hide('slow');
+			}
+
+		});
+
+	</script>
 {% endblock %}
