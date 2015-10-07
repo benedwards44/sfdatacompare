@@ -33,6 +33,9 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
         }
         else   
         {
+        	// Clear the fields
+        	$scope.fields = [];
+        	
         	// Query for objects
         	updateModal(
 				'Querying fields.',
