@@ -126,7 +126,7 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
 
     			fields_to_compare.push(field.api_name);
     		}
-    	}
+    	});
 
     	// Execute logic to being the data compare job
     	if (fields_to_compare.length > 0) {
