@@ -86,7 +86,7 @@ def get_objects_and_fields(job):
 				# If the Org is in the standard list, or is a custom object
 				if sObject['name'] in standard_objects or sObject['name'].endswith('__c'):
 
-					# Add to the list
+					# Add object to unique list
 					object_list.append(sObject['name'])
 
 					# query for fields in the object
