@@ -19,6 +19,9 @@ app = Celery('tasks', broker=os.environ.get('REDIS_URL', 'redis://localhost'))
 from django.conf import settings
 from comparedata.models import Job, Org, Object, ObjectField
 
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 @app.task
 def get_objects_and_fields(job): 
 
