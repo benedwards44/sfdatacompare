@@ -185,7 +185,7 @@ def get_objects_task(job):
 
 
 @app.task
-def get_objects_task(job, field_job): 
+def get_fields_task(job, field_job): 
 	"""
 		Async method to query fields for a given object
 	"""
