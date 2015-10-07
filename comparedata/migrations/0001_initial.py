@@ -27,7 +27,6 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('label', models.CharField(max_length=255)),
                 ('api_name', models.CharField(max_length=255)),
-                ('order_by', models.CharField(max_length=255)),
                 ('job', models.ForeignKey(to='comparedata.Job')),
             ],
         ),
