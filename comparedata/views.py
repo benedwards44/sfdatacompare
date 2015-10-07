@@ -408,7 +408,7 @@ def execute_data_compare(request, job_id, object_id):
 		# Parse POST detail to determine fields to compare on
 		fields = json.loads(request.body)
 
-		print '### ' + fields
+		print fields
 
 		# Execute the job
 		get_objects_task.compare_data(job)
