@@ -131,8 +131,34 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
     	// Execute logic to being the data compare job
     	if (fields_to_compare.length > 0) {
 
-    		alert('GO.');
+            // POST the selected fields to the controller
+    		$http(
+            {
+                method: 'POST',
+                url: '/compare-data/' + $scope.job_id + '/' + $scope.objectId + '/',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                data: fields_to_compare
+            }).
+            success(function(data, status) 
+            {
+                // Redirect to the loading page
+                window.location = '/comparing-data/' + $scope.job_id + '/';
+            }).
+            error(function(data, status) 
+            {
+                // Return error in a modal
+                updateModal(
+                    'Error Executing Data Compare',
+                    '<div class="alert alert-danger" role="alert">There was an error executing the data compare job.' + data + '</div>',
+                    true
+                );
 
+                // Close the modal
+                $('#progressModal').modal();
+            });
     	}
     	// No fields are checked, return an error
     	else {

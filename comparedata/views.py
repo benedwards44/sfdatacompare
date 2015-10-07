@@ -5,7 +5,7 @@ from django.conf import settings
 from comparedata.forms import JobForm
 from comparedata.models import Job, Org, Object, ObjectField
 from django.http import HttpResponse, HttpResponseRedirect
-from comparedata.tasks import get_objects_task
+from comparedata.tasks import get_objects_task, compare_data
 
 import sys
 import datetime
@@ -187,7 +187,7 @@ class QueryObjects(View):
 		Query Objects loading page
 	"""
 
-	template_name = 'query_objects.html'
+	template_name = 'loading.html'
 
 	# When view is called via GET
 	def get(self, request, *args, **kwargs):
@@ -222,6 +222,28 @@ class SelectObject(View):
 	def get(self, request, *args, **kwargs):
 
 		job = get_object_or_404(Job, random_id = self.kwargs['job_id'])
+
+		return render(request, self.template_name, {
+			'job': job
+		})
+
+
+class CompareData(View):
+	"""
+		Compare Data loading page
+	"""
+
+	template_name = 'loading.html'
+
+	# When view is called via GET
+	def get(self, request, *args, **kwargs):
+
+		# Query for the job
+		job = get_object_or_404(Job, random_id = self.kwargs['job_id'])
+
+		if job.status == 'Finished':
+
+			return HttpResponseRedirect('/compare-data-result/' + str(job.random_id) + '/')
 
 		return render(request, self.template_name, {
 			'job': job
@@ -367,8 +389,39 @@ def get_fields(request, job_id, object_id):
 			return HttpResponse(json.dumps(response_data), content_type = 'application/json')
 
 
+# AJAX endpoint to execute the data compare job
+def execute_data_compare(request, job_id, object_id):
 
-	
+	# Query for the job
+	job = get_object_or_404(Job, random_id = self.kwargs['job_id'])
+
+	# If POST request made
+	if request.method == 'POST':
+
+		# Parse POST data into array
+		all_fields = json.loads(request.body)
+
+		# Update the status
+		job.status = 'Begin Data Compare'
+		job.save()
+
+		# Parse POST detail to determine fields to compare on
+		fields = json.loads(request.body)
+
+		print '### ' + fields
+
+		# Execute the job
+		get_objects_task.compare_data(job)
+
+		# Redirect user
+		return HttpResponseRedirect('/comparing-data/' + str(job.random_id) + '/')
+
+	else:
+
+		return HttpResponse(
+			json.dumps({'error': 'No POST message.'}), 
+			content_type = 'application/json'
+		)
 
 
 

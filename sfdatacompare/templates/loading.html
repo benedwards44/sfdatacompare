@@ -3,15 +3,18 @@
 {% block content %}
 
 	<h1>Salesforce Data Compare</h1>
-	<p>
-		This tool uses the Salesforce REST API to query objects in your databases and compare data between two Orgs. This is useful for post-data migrations to ensure that the data is migrated successfully and all rows match. It also allows for reference tables and custom settings to be matched and managed.
-	</p>
-	<p>
-		None of your organisation information or data is captured or kept from running this tool. Because this tool is querying data in your Salesforce Org, if you are running on behalf of a client or do not own the data, it is important to ensure people are aware that another cloud-based tool is accessing your Salesforce data.
-	</p>
-	<p>
-		Note: You will need to be a System Administrator on both Orgs in order to use this application.
-	</p>
+
+	{% if job.status == 'Downloading Objects' %}
+		<p>
+			This tool uses the Salesforce REST API to query objects in your databases and compare data between two Orgs. This is useful for post-data migrations to ensure that the data is migrated successfully and all rows match. It also allows for reference tables and custom settings to be matched and managed.
+		</p>
+		<p>
+			None of your organisation information or data is captured or kept from running this tool. Because this tool is querying data in your Salesforce Org, if you are running on behalf of a client or do not own the data, it is important to ensure people are aware that another cloud-based tool is accessing your Salesforce data.
+		</p>
+		<p>
+			Note: You will need to be a System Administrator on both Orgs in order to use this application.
+		</p>
+	{% endif %}
 	
 	<div class="loading-components">
 
@@ -23,10 +26,18 @@
 
 		<div style="float:left;margin-left:20px;">
 			<h1 style="font-size:1.5em;margin-top:20px;">
-				Querying your objects...
+				{% if job.status == 'Downloading Objects' %}
+					Querying your objects...
+				{% else %}
+					Comparing your data...
+				{% endif %}
 			</h1>
 			<p>
-				Time on this will vary depending on the number of objects in your Org.
+				{% if job.status == 'Downloading Objects' %}
+					Time on this will vary depending on the number of objects in your Org.
+				{% else %}
+					Time on this will vary depending on the size of data and number of fields in your selected object.
+				{% endif %}
 			</p>
 		</div>
 
