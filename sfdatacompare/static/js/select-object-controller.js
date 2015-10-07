@@ -111,4 +111,10 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
             field.checked = $scope.checkAll;
         });
     }
+
+    // When the compare button is checked.
+    $scope.compareData = function()
+    {
+    	alert('GO.');
+    }
 });

@@ -32,18 +32,20 @@
 
 			<div class="col-md-12" id="field-select">
 
-				<br/>
+				<br/><br/>
 
-				{% verbatim %}
-
-				<div class="col-md-6 col-md-offset-3 text-center">
-					<button class="btn btn-success">Compare Data</button>
-				</div>
+				{% verbatim %
 
 				<div class="col-md-12">
 
-					<br/><br/>
-				
+					<div class="col-md-6">
+						<h3>Select Fields</h3>
+					</div>
+
+					<div class="col-md-6 text-right">
+						<button class="btn btn-success" ng-click="compareData()">Compare Data >></button>
+					</div>
+
 					<table class="table table-hover table-striped" id="fields_table">
 
 				    	<thead>
