@@ -316,13 +316,37 @@ def get_fields(request, job_id, object_id):
 					new_field.object = object
 					new_field.api_name = field['name']
 					new_field.label = field['label']
+
+					# Determine the field type
+
+					# If a formula field, set to formula and add the return type in brackets
+					if 'calculated' in field and (field['calculated'] == True or field['calculated'] == 'true'):
+						new_field.type = 'Formula (' + field['type'] + ')'
+
+					# lookup field
+					elif field['type'] == 'reference':
+
+						new_field.type = 'Lookup ('
+
+						# Could be a list of reference objects
+						for referenceObject in field['referenceTo']:
+							new_field.type = new_field.type + referenceObject.title() + ', '
+
+						# remove trailing comma and add closing bracket
+						new_field.type = new_field.type[:-2]
+						new_field.type = new_field.type + ')'
+
+					else:
+						new_field.data_type = field['type'].title()
+
 					new_field.save()
 
 					# Append to return list
 					fields.append({
 						'id': new_field.id,
 						'label': new_field.label,
-						'api_name': new_field.api_name
+						'api_name': new_field.api_name,
+						'type': new_field.type
 					})
 
 			# Return the list of fields to the page

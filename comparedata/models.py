@@ -56,3 +56,4 @@ class ObjectField(models.Model):
 	object = models.ForeignKey(Object)
 	label = models.CharField(max_length=255)
 	api_name = models.CharField(max_length=255)
+	type = models.CharField(max_length=255)
