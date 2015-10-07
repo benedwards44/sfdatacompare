@@ -3,7 +3,7 @@ from django.views.generic.detail import View
 from django.views.generic.edit import FormView
 from django.conf import settings
 from comparedata.forms import JobForm
-from comparedata.models import Job, Org, Object, ObjectField, ObjectFieldJob
+from comparedata.models import Job, Org, Object, ObjectField
 from django.http import HttpResponse, HttpResponseRedirect
 from comparedata.tasks import get_objects_task
 
