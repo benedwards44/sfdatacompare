@@ -31,6 +31,8 @@
 			</div>
 
 			<div class="col-md-12" class="field-select">
+
+				{% verbatim %}
 				
 				<table class="table table-hover table-striped" id="fields_table">
 
@@ -38,7 +40,7 @@
 			    		<tr>
 			    			<th width="1%"></th>
 				    		<th>Label</th>
-				    		<th>Name</th>
+				    		<th>API Name</th>
 				    		<th>Type</th>
 				    	</tr>
 			    	</thead>
@@ -47,11 +49,17 @@
 
 			    		<tr ng-repeat="field in fields">
 
+			    			<td></td>
+			    			<td>{{ field.label }}</td>
+			    			<td>{{ field.api_name }}</td>
+			    			<td></td>
 			    		</tr>
 
 			    	</tbody>
 
 			    </table>
+
+			    {% endverbatim %}
 
 			</div>
 
