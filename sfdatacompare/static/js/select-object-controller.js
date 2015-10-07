@@ -10,6 +10,8 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
 	// On initation of controller
     $scope.init = function(job_id)
     {
+    	$('#field-select').hide();
+
         // Job ID passed through from view
         $scope.job_id = job_id;
 
@@ -26,7 +28,7 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
         	$scope.fields = [];
 
         	// Hide the selection div
-            $('.field-select').hide('slow');
+            $('#field-select').hide('slow');
         }
         else   
         {
@@ -81,7 +83,7 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
                     }
 
                     // Show table and hide message
-                    $('.field-select').show('slow');
+                    $('#field-select').show('slow');
 
                     // Close the modal
                     $('#progressModal').modal('hide');
