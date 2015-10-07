@@ -184,6 +184,17 @@ def get_objects_and_fields(job):
 	# Save Org 1 and Org 2
 	org_one.save()
 	org_two.save()
+
+	if org_one.status == 'Error' or org_two.status == 'Error':
+
+		job.status == 'Error'
+		job.error = 'There was an error downloading objects and fields for one of the objects: \n\n'
+
+		if org_one.error:
+			job.error += org_one.error
+
+		if org_two.error:
+			job.error += '\n\n' + org_two.error
 	
 	# Save the job as finished
 	job.finished_date = datetime.datetime.now()
