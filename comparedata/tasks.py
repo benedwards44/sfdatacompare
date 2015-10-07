@@ -22,15 +22,6 @@ from comparedata.models import Job, Org, Object, ObjectField
 @app.task
 def get_objects_and_fields(job): 
 
-
-	job.status = 'Finished'
-	job.save()
-
-	"""
-	instance_url = schema.instance_url
-	org_id = schema.org_id
-	access_token = schema.access_token
-
 	# List of standard objects to include
 	standard_objects = (
 		'Account',
@@ -66,118 +57,135 @@ def get_objects_and_fields(job):
 		'User',
 	)
 
-	# Describe all sObjects
-	all_objects = requests.get(
+	# List to determine if exists in other Org
+	object_list = []
+	field_list = []
+
+	# The orgs used for querying
+	org_one = job.sorted_orgs()[0]
+	org_two = job.sorted_orgs()[1]
+
+	# Describe all sObjects for the 1st org
+	org_one_objects = requests.get(
 		instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/', 
 		headers={
-			'Authorization': 'Bearer ' + access_token, 
+			'Authorization': 'Bearer ' + org_one.access_token, 
 			'content-type': 'application/json'
 		}
 	)
 
 	try:
 
-		if 'sobjects' in all_objects.json():
+		# If sobjects exist in the query (should do)
+		if 'sobjects' in org_one_objects.json():
 
-			for sObject in all_objects.json()['sobjects']:
+			# Iterate over the JSON response
+			for sObject in org_one_objects.json()['sobjects']:
 
+				# If the Org is in the standard list, or is a custom object
 				if sObject['name'] in standard_objects or sObject['name'].endswith('__c'):
+
+					# Add to the list
+					object_list.append(sObject['name'])
+
+					# query for fields in the object
+					all_fields = requests.get(
+						instance_url + sObject['urls']['describe'], 
+						headers={
+							'Authorization': 'Bearer ' + org_one.access_token, 
+							'content-type': 'application/json'
+						}
+					)
+
+					# Loop through fields
+					for field in all_fields.json()['fields']:
+
+						# Add unique field name to the list
+						field_list.append(sObject['name'] + '.' + field['name'])
+
+			org_one.status = 'Finished'
+
+		else:
+
+			org_one.status = 'Error'
+			org_one.error = 'There was no objects returned from the query'
+
+	except Exception as error:
+
+		org_one.status = 'Error'
+		org_one.error = traceback.format_exc()
+
+	# Now run the process for the 2nd org. Only create object and field records if they exist in both Orgs
+	# Describe all sObjects for the 2nd org
+	org_one_objects = requests.get(
+		instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/', 
+		headers={
+			'Authorization': 'Bearer ' + org_two.access_token, 
+			'content-type': 'application/json'
+		}
+	)
+
+	try:
+
+		# If sobjects exist in the query (should do)
+		if 'sobjects' in org_two_objects.json():
+
+			# Iterate over the JSON response
+			for sObject in org_two_objects.json()['sobjects']:
+
+				# If the Org is in the standard list, or is a custom object AND is found in the 1st org
+				if (sObject['name'] in standard_objects or sObject['name'].endswith('__c')) and sObject['name'] in object_list:
 
 					# Create object record
 					new_object = Object()
-					new_object.schema = schema
+					new_object.job = job
 					new_object.api_name = sObject['name']
 					new_object.label = sObject['label']
 					new_object.save()
 
 					# query for fields in the object
-					all_fields = requests.get(instance_url + sObject['urls']['describe'], headers={'Authorization': 'Bearer ' + access_token, 'content-type': 'application/json'})
+					all_fields = requests.get(
+						instance_url + sObject['urls']['describe'], 
+						headers={
+							'Authorization': 'Bearer ' + org_two.access_token, 
+							'content-type': 'application/json'
+						}
+					)
 
 					# Loop through fields
 					for field in all_fields.json()['fields']:
 
-						# Create field
-						new_field = Field()
-						new_field.object = new_object
-						new_field.api_name = field['name']
-						new_field.label = field['label']
+						# Appended object and name used for uniqueness
+						object_and_field = sObject['name'] + '.' + field['name']
 
-						if 'inlineHelpText' in field:
-							new_field.help_text = field['inlineHelpText']
+						# If the field exists in the unique list
+						if object_and_field in field_list:
 
-						# If a formula field, set to formula and add the return type in brackets
-						if 'calculated' in field and (field['calculated'] == True or field['calculated'] == 'true'):
-							new_field.data_type = 'Formula (' + field['type'] + ')'
+							# Create field
+							new_field = Field()
+							new_field.object = new_object
+							new_field.api_name = field['name']
+							new_field.label = field['label']
+							new_field.save()
 
-						# lookup field
-						elif field['type'] == 'reference':
-
-							new_field.data_type = 'Lookup ('
-
-							# Could be a list of reference objects
-							for referenceObject in field['referenceTo']:
-								new_field.data_type = new_field.data_type + referenceObject.title() + ', '
-
-							# remove trailing comma and add closing bracket
-							new_field.data_type = new_field.data_type[:-2]
-							new_field.data_type = new_field.data_type + ')'
-
-						# picklist values
-						elif field['type'] == 'picklist' or field['type'] == 'multipicklist':
-
-							new_field.data_type = field['type'].title() + ' ('
-
-							# Add in picklist values
-							for picklist in field['picklistValues']:
-								new_field.data_type = new_field.data_type + picklist['label'] + ', '
-
-							# remove trailing comma and add closing bracket
-							new_field.data_type = new_field.data_type[:-2]
-							new_field.data_type = new_field.data_type + ')'
-
-						# if text field, add field length
-						elif field['type'] == 'string' or field['type'] == 'textarea':
-
-							new_field.data_type = field['type'].title()
-
-							# Add the field length to the title
-							if 'length' in field:
-								new_field.data_type += ' (' + str(field['length']) + ')'
-
-						# If number, currency or percent
-						elif field['type'] == 'double' or field['type'] == 'percent' or field['type'] == 'currency':
-
-							new_field.data_type = field['type'].title()
-
-							# Add the length and precision
-							if 'precision' in field and 'scale' in field:
-
-								# Determine the length
-								length = int(field['precision']) - int(field['scale'])
-
-								# Add length and scale to the field type
-								new_field.data_type += ' (' + str(length) + ',' + str(field['scale']) + ')'
-
-						else:
-							new_field.data_type = field['type'].title()
-
-						new_field.save()
-
-			schema.status = 'Finished'
+					
+			org_two.status = 'Finished'
 
 		else:
 
-			schema.status = 'Error'
-			schema.error = 'There was no objects returned from the query'
-
-			debug = Debug()
-			debug.debug = all_objects.text
-			debug.save()
+			org_two.status = 'Error'
+			org_two.error = 'There was no objects returned from the query'
 
 	except Exception as error:
-		schema.status = 'Error'
-		schema.error = traceback.format_exc()
+
+		org_two.status = 'Error'
+		org_two.error = traceback.format_exc()
+
+	# Save Org 1 and Org 2
+	org_one.save()
+	org_two.save()
 	
-	schema.finished_date = datetime.datetime.now()
-	schema.save()
-	"""
+	# Save the job as finished
+	job.finished_date = datetime.datetime.now()
+	job.save()
+
