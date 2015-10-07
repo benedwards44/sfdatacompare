@@ -30,7 +30,7 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
     	$scope.fields = [];
 
         // If an object has been selected
-    	if ($scope.objectId =!= '')
+    	if ($scope.objectId != '')
         {
         	// Clear the fields
         	$scope.fields = [];
