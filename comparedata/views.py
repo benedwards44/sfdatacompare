@@ -425,5 +425,3 @@ def execute_data_compare(request, job_id, object_id):
 
 
 
-
-

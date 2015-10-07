@@ -2,8 +2,16 @@
 
 {% block content %}
 
-	<h1>Salesforce Data Compare</h1>
+	<div class="col-md-8">
+		<h1>Salesforce Data Compare</h1>
+	</div>
 
-	RESULTS
+	<div class="col-md-4 text-right">
+		<a href="/select-object/{{ job.random_id }}" class="btn btn-info">Select Another Object</a>
+	</div>
+
+	<p>
+		And the results are in...
+	</p>
 
 {% endblock %}
