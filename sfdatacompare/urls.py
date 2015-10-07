@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^query-objects/(?P<job_id>[0-9A-Za-z_\-]+)/$', views.QueryObjects.as_view(), name='query_objects'),
     url(r'^select-object/(?P<job_id>[0-9A-Za-z_\-]+)/$', views.SelectObject.as_view(), name='select_object'),
     url(r'^job-status/(?P<job_id>[0-9A-Za-z_\-]+)/$', 'comparedata.views.job_status'),
+    url(r'^get-fields/(?P<job_id>[0-9A-Za-z_\-]+)/$', 'comparedata.views.get_fields'),
+    url(r'^get-fields-status/(?P<field_job_id>\d+)/$', 'comparedata.views.get_fields_job_status'),
 ]

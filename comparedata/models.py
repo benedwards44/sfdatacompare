@@ -58,11 +58,12 @@ class ObjectField(models.Model):
 	api_name = models.CharField(max_length=255)
 
 
-"""
-class DataRow(models.Model):
-	
-		Object to hold the physical data queried from the system
+class ObjectFieldJob(models.Model):
+	"""
+		Object to hold a job for the downloading a fields for an object
 	"""
 
-
-
+	job = models.ForeignKey(Job)
+	object = models.ForeignKey(Object)
+	status = models.CharField(max_length=255, blank=True)
+	error = models.TextField(blank=True)

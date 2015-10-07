@@ -3,9 +3,9 @@ from django.views.generic.detail import View
 from django.views.generic.edit import FormView
 from django.conf import settings
 from comparedata.forms import JobForm
-from comparedata.models import Job, Org, Object, ObjectField
+from comparedata.models import Job, Org, Object, ObjectField, ObjectFieldJob
 from django.http import HttpResponse, HttpResponseRedirect
-from comparedata.tasks import get_objects_and_fields
+from comparedata.tasks import get_objects_task, get_fields_task
 
 import sys
 import datetime
@@ -200,7 +200,7 @@ class QueryObjects(View):
 			job.save()
 
 			# Begin download of objects and fields
-			get_objects_and_fields.delay(job)
+			get_objects_task.delay(job)
 
 		elif job.status == 'Finished':
 
@@ -231,6 +231,7 @@ class SelectObject(View):
 # AJAX endpoint for page to constantly check if job is finished
 def job_status(request, job_id):
 
+	# Query for the job record
 	job = get_object_or_404(Job, random_id = job_id)
 
 	response_data = {
@@ -242,9 +243,38 @@ def job_status(request, job_id):
 
 
 # Endpoint called from AJAX to trigger field query for an object
-#def get_fields_for_object(request, job_id):
+def get_fields(request, job_id):
+
+	# Query for the job record
+	job = get_object_or_404(Job, random_id = job_id)
+
+	# The selected object from the page
+	selected_object = json.loads(request.POST.get('object'))
+
+	# Create new job record
+	field_job = ObjectFieldJob()
+	field_job.job = job
+	field_job.object = Object.objects.get(job=job, api_name=selected_object)
+	field_job.status = 'Not Started'
+	field_job.save()
+
+	# Execute the job
+	get_fields_task.delay(job, field_job)
+
+	# Return the id of the job for status checking and processing as required
+	return HttpResponse(field_job.id)
 
 
+# AJAX endpoint to get the status of a get_fields job
+def get_fields_job_status(request, field_job_id):
+
+	get_fields_job = get_object_or_404(ObjectFieldJob, id = field_job_id)
+
+	response_data = {
+		'status': get_fields_job.status,
+		'error': get_fields_job.error
+	}
+
+	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
 
 
-#def get_fields_job_status(request, job_id):

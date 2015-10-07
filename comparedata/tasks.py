@@ -23,7 +23,10 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 @app.task
-def get_objects_and_fields(job): 
+def get_objects_task(job): 
+	"""
+		Async method to query objects for the given orgs
+	"""
 
 	# List of standard objects to include
 	standard_objects = (
@@ -60,7 +63,6 @@ def get_objects_and_fields(job):
 
 	# List to determine if exists in other Org
 	object_list = []
-	field_list = []
 
 	# The orgs used for querying
 	org_one = job.sorted_orgs()[0]
@@ -146,34 +148,6 @@ def get_objects_and_fields(job):
 					new_object.label = sObject['label']
 					new_object.save()
 
-					"""
-					# query for fields in the object
-					all_fields = requests.get(
-						org_two.instance_url + sObject['urls']['describe'], 
-						headers={
-							'Authorization': 'Bearer ' + org_two.access_token, 
-							'content-type': 'application/json'
-						}
-					)
-
-					# Loop through fields
-					for field in all_fields.json()['fields']:
-
-						# Appended object and name used for uniqueness
-						object_and_field = sObject['name'] + '.' + field['name']
-
-						# If the field exists in the unique list
-						if object_and_field in field_list:
-
-							# Create field
-							new_field = ObjectField()
-							new_field.object = new_object
-							new_field.api_name = field['name']
-							new_field.label = field['label']
-							new_field.save()
-
-					"""
-
 			org_two.status = 'Finished'
 
 		else:
@@ -209,3 +183,69 @@ def get_objects_and_fields(job):
 	job.finished_date = datetime.datetime.now()
 	job.save()
 
+
+@app.task
+def get_objects_task(job, field_job): 
+	"""
+		Async method to query fields for a given object
+	"""
+
+	# Update the job status
+	field_job.status = 'Downloading Fields'
+	field_job.save()
+
+	# List of fields to query
+	field_list = []
+
+	# The orgs used for querying
+	org_one = job.sorted_orgs()[0]
+	org_two = job.sorted_orgs()[1]
+
+	try:
+
+		# Query for Org One fields
+		org_one_fields = requests.get(
+			org_one.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/' + field_job.object.api_name + '/describe/', 
+			headers={
+				'Authorization': 'Bearer ' + org_one.access_token, 
+				'content-type': 'application/json'
+			}
+		)
+
+		# Loop through the org one fields
+		for field in org_one_fields.json()['fields']:
+			field_list.append(field['name'])
+
+		# Query for Org 2 fields
+		org_two_fields = requests.get(
+			org_two.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/' + field_job.object.api_name + '/describe/', 
+			headers={
+				'Authorization': 'Bearer ' + org_two.access_token, 
+				'content-type': 'application/json'
+			}
+		)
+
+		# Loop through the org twp fields
+		for field in org_two_fields.json()['fields']:
+			
+			# If the field exists in the set
+			if field['name'] in field_list:
+
+				# Create field
+				new_field = ObjectField()
+				new_field.object = field_job.object
+				new_field.api_name = field['name']
+				new_field.label = field['label']
+				new_field.save()
+
+		# Set the job as finished
+		field_job.status = 'Finished'
+
+	except:
+
+		# Catch any errors
+		field_job.status = 'Error'
+		field_job.error = traceback.format_exc()
+
+	# Save the job
+	field_job.save()
