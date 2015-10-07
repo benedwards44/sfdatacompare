@@ -75,7 +75,8 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
                             'id': data[i].id,
 							'label': data[i].label,
 							'api_name': data[i].api_name,
-							'type': data[i].type
+							'type': data[i].type,
+							'checked': false
                         };
 
                         // Push to array
@@ -100,6 +101,15 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
 				);
             });
 
+        }
+    }
+
+    // When the checkall checkbox is checked
+    $scope.checkAllChange = function()
+    {
+    	for (var i = 0; i < $scope.fields.length; i++)
+        {
+            $scope.fields[i].checked = $scope.checkAll;
         }
     }
 });

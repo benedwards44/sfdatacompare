@@ -48,7 +48,9 @@
 
 				    	<thead>
 				    		<tr>
-				    			<th width="1%"><input type="checkbox"></th>
+				    			<th width="1%">
+									<input type="checkbox" ng-model="checkAll" ng-change="checkAllChange()" />
+								</th>
 					    		<th>Label</th>
 					    		<th>API Name</th>
 					    		<th>Type</th>
@@ -59,7 +61,9 @@
 
 				    		<tr ng-repeat="field in fields">
 
-				    			<td><input type="checkbox"></td>
+				    			<td>
+				    				<input type="checkbox" ng-model="field.checked" />
+				    			</td>
 				    			<td>{{ field.label }}</td>
 				    			<td>{{ field.api_name }}</td>
 				    			<td>{{ field.type }}</td>
