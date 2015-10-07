@@ -29,7 +29,6 @@ def get_objects_and_fields(job):
 	standard_objects = (
 		'Account',
 		'AccountContactRole',
-		'Activity',
 		'Asset',
 		'Campaign',
 		'CampaignMember',
@@ -49,7 +48,6 @@ def get_objects_and_fields(job):
 		'OpportunityLineItem',
 		'Order',
 		'OrderItem',
-		'PartnerRole',
 		'Pricebook2',
 		'PricebookEntry',
 		'Product2',
