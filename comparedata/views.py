@@ -393,7 +393,7 @@ def get_fields(request, job_id, object_id):
 def execute_data_compare(request, job_id, object_id):
 
 	# Query for the job
-	job = get_object_or_404(Job, random_id = self.kwargs['job_id'])
+	job = get_object_or_404(Job, random_id = job_id)
 
 	# If POST request made
 	if request.method == 'POST':
