@@ -10,9 +10,6 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
 	// On initation of controller
     $scope.init = function(job_id)
     {
-    	// Hide by default
-    	$('.field-select').hide();
-
         // Job ID passed through from view
         $scope.job_id = job_id;
 
