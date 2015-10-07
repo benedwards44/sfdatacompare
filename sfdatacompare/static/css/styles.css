@@ -247,6 +247,10 @@ table.diff_header td.diff_header {
     display: none;
 }
 
+.no-margin {
+    margin: 0;
+}
+
 /* Python diff css */
 table.diff {font-family:Consolas,'Bitstream Vera Sans Mono','Courier New',Courier,monospace; border:medium; table-layout: fixed; width: 100%}
 .diff_header {background-color:#e0e0e0}
