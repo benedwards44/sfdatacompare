@@ -68,7 +68,7 @@ def get_objects_and_fields(job):
 
 	# Describe all sObjects for the 1st org
 	org_one_objects = requests.get(
-		instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/', 
+		org_one.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/', 
 		headers={
 			'Authorization': 'Bearer ' + org_one.access_token, 
 			'content-type': 'application/json'
@@ -91,7 +91,7 @@ def get_objects_and_fields(job):
 
 					# query for fields in the object
 					all_fields = requests.get(
-						instance_url + sObject['urls']['describe'], 
+						org_one.instance_url + sObject['urls']['describe'], 
 						headers={
 							'Authorization': 'Bearer ' + org_one.access_token, 
 							'content-type': 'application/json'
@@ -119,7 +119,7 @@ def get_objects_and_fields(job):
 	# Now run the process for the 2nd org. Only create object and field records if they exist in both Orgs
 	# Describe all sObjects for the 2nd org
 	org_two_objects = requests.get(
-		instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/', 
+		org_two.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/', 
 		headers={
 			'Authorization': 'Bearer ' + org_two.access_token, 
 			'content-type': 'application/json'
@@ -146,7 +146,7 @@ def get_objects_and_fields(job):
 
 					# query for fields in the object
 					all_fields = requests.get(
-						instance_url + sObject['urls']['describe'], 
+						org_two.instance_url + sObject['urls']['describe'], 
 						headers={
 							'Authorization': 'Bearer ' + org_two.access_token, 
 							'content-type': 'application/json'
