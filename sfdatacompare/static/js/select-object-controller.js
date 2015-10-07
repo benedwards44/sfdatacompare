@@ -22,15 +22,15 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
     // When an object selection is changed
     $scope.objectChange = function()
     {
-    	if ($scope.objectId === '')
-        {
-        	// Clear the fields
-        	$scope.fields = [];
 
-        	// Hide the selection div
-            $('#field-select').hide('slow');
-        }
-        else   
+    	// Hide the selection div
+        $('#field-select').hide('slow');
+
+    	// Clear the fields
+    	$scope.fields = [];
+
+        // If an object has been selected
+    	if ($scope.objectId =!= '')
         {
         	// Clear the fields
         	$scope.fields = [];
