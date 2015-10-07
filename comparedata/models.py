@@ -43,7 +43,6 @@ class Object(models.Model):
 	job = models.ForeignKey(Job)
 	label = models.CharField(max_length=255)
 	api_name = models.CharField(max_length=255)
-	order_by = models.CharField(max_length=255)
 
 	def sorted_fields(self):
 		return self.objectfield_set.order_by('label')
