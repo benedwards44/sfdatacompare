@@ -32,7 +32,7 @@
 
 			<div class="col-md-12" id="field-select">
 
-				<br/><br/>
+				<br/>
 
 				{% verbatim %}
 
@@ -40,32 +40,36 @@
 					<button class="btn btn-success">Compare Data</button>
 				</div>
 
-				<br/><br/>
+				<div class="col-md-12">
+
+					<br/>
 				
-				<table class="table table-hover table-striped" id="fields_table">
+					<table class="table table-hover table-striped" id="fields_table">
 
-			    	<thead>
-			    		<tr>
-			    			<th width="1%"><input type="checkbox"></th>
-				    		<th>Label</th>
-				    		<th>API Name</th>
-				    		<th>Type</th>
-				    	</tr>
-			    	</thead>
+				    	<thead>
+				    		<tr>
+				    			<th width="1%"><input type="checkbox"></th>
+					    		<th>Label</th>
+					    		<th>API Name</th>
+					    		<th>Type</th>
+					    	</tr>
+				    	</thead>
 
-			    	<tbody>
+				    	<tbody>
 
-			    		<tr ng-repeat="field in fields">
+				    		<tr ng-repeat="field in fields">
 
-			    			<td><input type="checkbox"></td>
-			    			<td>{{ field.label }}</td>
-			    			<td>{{ field.api_name }}</td>
-			    			<td>{{ field.type }}</td>
-			    		</tr>
+				    			<td><input type="checkbox"></td>
+				    			<td>{{ field.label }}</td>
+				    			<td>{{ field.api_name }}</td>
+				    			<td>{{ field.type }}</td>
+				    		</tr>
 
-			    	</tbody>
+				    	</tbody>
 
-			    </table>
+				    </table>
+
+				</div>
 
 			    {% endverbatim %}
 
