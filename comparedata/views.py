@@ -302,6 +302,9 @@ def get_fields(request, job_id, object_id):
 				}
 			)
 
+			# Field list
+			fields = []
+
 			# Loop through the org twp fields
 			for field in org_two_fields.json()['fields']:
 				
