@@ -232,6 +232,22 @@ class SelectObject(View):
 		})
 
 
+class CompareDataResult(View):
+	"""
+		The compare data result controller
+	"""
+
+	template_name = 'compare_data_result.html'
+
+	# When view is called via GET
+	def get(self, request, *args, **kwargs):
+
+		job = get_object_or_404(Job, random_id = self.kwargs['job_id'])
+
+		return render(request, self.template_name, {
+			'job': job
+		})
+
 
 # AJAX endpoint for page to constantly check if job is finished
 def job_status(request, job_id):

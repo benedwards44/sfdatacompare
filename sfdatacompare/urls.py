@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'^job-status/(?P<job_id>[0-9A-Za-z_\-]+)/$', 'comparedata.views.job_status'),
     url(r'^get-fields/(?P<job_id>[0-9A-Za-z_\-]+)/(?P<object_id>\d+)/$', 'comparedata.views.get_fields'),
     url(r'^compare-data/(?P<job_id>[0-9A-Za-z_\-]+)/(?P<object_id>\d+)/$', 'comparedata.views.execute_data_compare'),
-    #url(r'^compare-data-result/(?P<job_id>[0-9A-Za-z_\-]+)/(?P<data_compare_job_id>\d+)/$', 'comparedata.views.execute_data_compare'),
+    url(r'^compare-data-result/(?P<job_id>[0-9A-Za-z_\-]+)/$', views.CompareDataResult.as_view(), name='compare_data_result'),
 ]
