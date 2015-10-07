@@ -47,25 +47,27 @@
 
 	<script type="text/javascript">
 
-		alert('boo.');
+		$(document).ready(function () {
 
-		$('#object-select').change(function () {
+			$('#object-select').change(function () {
 
-			alert($(this).val());
+				alert($(this).val());
 
-			/*
+				/*
 
-			if ( $(this).val() != '' ) {
+				if ( $(this).val() != '' ) {
 
 
-				alert('GO GO GO');
+					alert('GO GO GO');
 
-			}
-			else {
+				}
+				else {
 
-				$('.field-select').hide('slow');
-			}
-			*/
+					$('.field-select').hide('slow');
+				}
+				*/
+
+			});
 
 		});
 
