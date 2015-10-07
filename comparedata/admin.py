@@ -7,11 +7,16 @@ class OrgInline(admin.TabularInline):
 	model = Org
 	extra = 0
 
+class ObjectInline(admin.TabularInline):
+	fields = ['label','api_name']
+	ordering = ['label',]
+	model = Object
+	extra = 0
 
 class JobAdmin(admin.ModelAdmin):
     list_display = ('created_date','finished_date','status','error')
     ordering = ['-created_date']
-    inlines = [OrgInline,]
+    inlines = [OrgInline, ObjectInline]
 
 
 admin.site.register(Job, JobAdmin)
