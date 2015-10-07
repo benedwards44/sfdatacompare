@@ -5,7 +5,7 @@ from django.conf import settings
 from comparedata.forms import JobForm
 from comparedata.models import Job, Org, Object, ObjectField, ObjectFieldJob
 from django.http import HttpResponse, HttpResponseRedirect
-from comparedata.tasks import get_objects_task, get_fields_task
+from comparedata.tasks import get_objects_task
 
 import sys
 import datetime
@@ -243,38 +243,105 @@ def job_status(request, job_id):
 
 
 # Endpoint called from AJAX to trigger field query for an object
-def get_fields(request, job_id):
+def get_fields(request, job_id, object_id):
 
 	# Query for the job record
 	job = get_object_or_404(Job, random_id = job_id)
+	object = get_object_or_404(Object, pk = object_id)
 
-	# The selected object from the page
-	selected_object = json.loads(request.POST.get('object'))
+	# If the fields already exist
+	if object.sorted_fields():
 
-	# Create new job record
-	field_job = ObjectFieldJob()
-	field_job.job = job
-	field_job.object = Object.objects.get(job=job, api_name=selected_object)
-	field_job.status = 'Not Started'
-	field_job.save()
+		# Field list
+		fields = []
 
-	# Execute the job
-	get_fields_task.delay(job, field_job)
+		# Iterate over the stored fields
+		for field in object.sorted_fields():
 
-	# Return the id of the job for status checking and processing as required
-	return HttpResponse(field_job.id)
+			# Append to return list
+			fields.append({
+				'id': field.id,
+				'label': field.label,
+				'api_name'; field.api_name
+			})
+
+		# Return the list of fields to the page
+		return HttpResponse(json.dumps(fields), content_type = 'application/json')
+
+	# Otherwise, need to query for them via api
+	else:
+
+		# List of fields to query
+		field_list = []
+
+		# The orgs used for querying
+		org_one = job.sorted_orgs()[0]
+		org_two = job.sorted_orgs()[1]
+
+		try:
+
+			# Query for Org One fields
+			org_one_fields = requests.get(
+				org_one.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/' + object.api_name + '/describe/', 
+				headers={
+					'Authorization': 'Bearer ' + org_one.access_token, 
+					'content-type': 'application/json'
+				}
+			)
+
+			# Loop through the org one fields
+			for field in org_one_fields.json()['fields']:
+				field_list.append(field['name'])
+
+			# Query for Org 2 fields
+			org_two_fields = requests.get(
+				org_two.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/' + object.api_name + '/describe/', 
+				headers={
+					'Authorization': 'Bearer ' + org_two.access_token, 
+					'content-type': 'application/json'
+				}
+			)
+
+			# Loop through the org twp fields
+			for field in org_two_fields.json()['fields']:
+				
+				# If the field exists in the set
+				if field['name'] in field_list:
+
+					# Create field
+					new_field = ObjectField()
+					new_field.object = object
+					new_field.api_name = field['name']
+					new_field.label = field['label']
+					new_field.save()
+
+					# Append to return list
+					fields.append({
+						'id': new_field.id,
+						'label': new_field.label,
+						'api_name': new_field.api_name
+					})
+
+			# Return the list of fields to the page
+			return HttpResponse(json.dumps(fields), content_type = 'application/json')
+
+		except:
+
+			# Set response data for page
+			response_data = {
+				'error': True,
+				'errorMessage': traceback.format_exc()
+			}
+
+			return HttpResponse(json.dumps(response_data), content_type = 'application/json')
 
 
-# AJAX endpoint to get the status of a get_fields job
-def get_fields_job_status(request, field_job_id):
 
-	get_fields_job = get_object_or_404(ObjectFieldJob, id = field_job_id)
+	
 
-	response_data = {
-		'status': get_fields_job.status,
-		'error': get_fields_job.error
-	}
 
-	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
+
+
+
 
 

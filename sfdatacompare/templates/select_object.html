@@ -18,10 +18,10 @@
 	</div>
 
 	<div class="col-md-6">
-		<select class="form-control" id="object-select">
+		<select class="form-control" id="object-select" ng-model="objectId" ng-change="objectChange()">
 			<option value="">-- Select Option --</option>
 			{% for object in job.sorted_objects %}
-				<option value="{{ object.api_name }}">{{ object.label }} ({{ object.api_name }})</option>
+				<option value="{{ object.id }}">{{ object.label }} ({{ object.api_name }})</option>
 			{% endfor %}
 		</select>
 	</div>
@@ -42,60 +42,16 @@
 
 {% block scripts %}
 
-	<!-- Generic JS scripts for this page -->	
-	<script type="text/javascript" src="/static/js/select-object.js"></script>
-
 	<!-- Cookie scipt for AJAX posts to controller -->
 	<script src="/static/js/cookie.js"></script>
 
-	<!-- JS to handle job specific actions -->
-	<script type="text/javascript">
+	<!-- Angular scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.min.js"></script>
 
-		$(document).ready(function () {
+	<!-- Angular controller -->
+	<script src="/static/js/select-object-controller.js"></script>
 
-			$('#object-select').change(function () {
 
-				if ( $(this).val() != '' ) {
-
-					// Set text for the modal 
-					updateModal(
-						'Querying fields.',
-						'<div>Querying both Orgs to determine matching fields for the selected object.</div><div class="progress"><div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div>',
-						false
-					);
-
-					// Launch the loading modal
-					$('#progressModal').modal();
-
-					// Execute query of fields for the selected object
-					$.ajax({
-						url: '/get-fields/{{ job.random_id }}/',
-						type: 'POST',
-						headers: {'X-CSRFToken': getCookie('csrftoken')},
-						data: {'object': JSON.stringify($(this).val())},
-						success: function(resp) {
-
-					    	check_get_fields_job(resp);
-					    },
-					    failure: function(resp) {
-
-					    	updateModal(
-					    		'Error',
-								'<div class="alert alert-danger" role="alert">There was an error deploying your components: ' + resp + '</div>',
-								true
-							);
-					    }
-					}); 
-
-				}
-				else {
-
-					$('.field-select').hide('slow');
-				}
-
-			});
-
-		});
-
-	</script>
 {% endblock %}

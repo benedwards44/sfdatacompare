@@ -56,14 +56,3 @@ class ObjectField(models.Model):
 	object = models.ForeignKey(Object)
 	label = models.CharField(max_length=255)
 	api_name = models.CharField(max_length=255)
-
-
-class ObjectFieldJob(models.Model):
-	"""
-		Object to hold a job for the downloading a fields for an object
-	"""
-
-	job = models.ForeignKey(Job)
-	object = models.ForeignKey(Object)
-	status = models.CharField(max_length=255, blank=True)
-	error = models.TextField(blank=True)
