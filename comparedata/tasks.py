@@ -163,7 +163,7 @@ def get_objects_and_fields(job):
 						if object_and_field in field_list:
 
 							# Create field
-							new_field = Field()
+							new_field = ObjectField()
 							new_field.object = new_object
 							new_field.api_name = field['name']
 							new_field.label = field['label']
