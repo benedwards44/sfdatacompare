@@ -193,3 +193,10 @@ def compare_data_task(job, object, fields):
 	# Update the status
 	job.status = 'Comparing Data'
 	job.save()
+
+
+
+
+
+	job.status = 'Finished'
+	job.save()
