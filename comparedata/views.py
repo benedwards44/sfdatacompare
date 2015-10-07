@@ -337,7 +337,7 @@ def get_fields(request, job_id, object_id):
 						new_field.type = new_field.type + ')'
 
 					else:
-						new_field.data_type = field['type'].title()
+						new_field.type = field['type'].title()
 
 					new_field.save()
 
