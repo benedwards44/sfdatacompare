@@ -412,7 +412,7 @@ def execute_data_compare(request, job_id, object_id):
 		print fields
 
 		# Execute the job
-		compare_data_task.compare_data(job, object, fields)
+		compare_data_task.delay(job, object, fields)
 
 		# Redirect user
 		return HttpResponseRedirect('/comparing-data/' + str(job.random_id) + '/')
