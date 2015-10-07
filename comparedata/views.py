@@ -5,7 +5,7 @@ from django.conf import settings
 from comparedata.forms import JobForm
 from comparedata.models import Job, Org, Object, ObjectField
 from django.http import HttpResponse, HttpResponseRedirect
-
+from comparedata.tasks import get_objects_and_fields
 
 import sys
 import datetime
@@ -199,7 +199,8 @@ class QueryObjects(View):
 			job.status = 'Downloading Objects'
 			job.save()
 
-			# Do stuff
+			# Begin download of objects and fields
+			get_objects_and_fields.delay(job)
 
 		elif job.status == 'Finished':
 
