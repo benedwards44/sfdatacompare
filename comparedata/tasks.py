@@ -118,7 +118,7 @@ def get_objects_and_fields(job):
 
 	# Now run the process for the 2nd org. Only create object and field records if they exist in both Orgs
 	# Describe all sObjects for the 2nd org
-	org_one_objects = requests.get(
+	org_two_objects = requests.get(
 		instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/sobjects/', 
 		headers={
 			'Authorization': 'Bearer ' + org_two.access_token, 
