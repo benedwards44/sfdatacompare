@@ -58,11 +58,3 @@ class ObjectField(models.Model):
 	api_name = models.CharField(max_length=255)
 	type = models.CharField(max_length=255)
 
-
-"""
-class CompareDataJob(models.Model):
-	
-		Object to control the details required for a data compare job
-	
-
-	job = models.ForeignKey(Job)"""

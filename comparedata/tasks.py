@@ -177,7 +177,7 @@ def get_objects_task(job):
 
 	else:
 
-		job.status = 'Finished'
+		job.status = 'Objects Downloaded'
 	
 	# Save the job as finished
 	job.finished_date = datetime.datetime.now()

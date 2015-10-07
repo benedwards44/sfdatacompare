@@ -60,9 +60,13 @@
 			    dataType: 'json',
 			    success: function(resp) 
 			    {
-			        if (resp.status == 'Finished')
+			    	if (resp.status == 'Objects Downloaded') 
+			    	{
+			    		window.location = '/select-object/{{ job.random_id }}/';
+			    	}
+			        else if (resp.status == 'Finished')
 			        {
-			        	window.location = '/select-object/{{ job.random_id }}/';
+			        	window.location = '/compare-data-result/{{ job.random_id }}/';
 			        } 
 			        else if (resp.status == 'Error')
 			        {

@@ -53,7 +53,7 @@ class IndexView(FormView):
 		org_two.job = job
 		org_two.save()
 
-		return HttpResponseRedirect('/query-objects/' + str(job.random_id))
+		return HttpResponseRedirect('/loading/' + str(job.random_id))
 
 	
 class OAuthResponse(View):
@@ -182,9 +182,9 @@ class OAuthResponse(View):
 		})
 
 
-class QueryObjects(View):
+class LoadingPage(View):
 	"""
-		Query Objects loading page
+		Generic loading page for async jobs
 	"""
 
 	template_name = 'loading.html'
@@ -202,9 +202,13 @@ class QueryObjects(View):
 			# Begin download of objects and fields
 			get_objects_task.delay(job)
 
-		elif job.status == 'Finished':
+		elif job.status == 'Objects Downloaded':
 
 			return HttpResponseRedirect('/select-object/' + str(job.random_id) + '/')
+
+		elif job.status == 'Finished':
+
+			return HttpResponseRedirect('/compare-data-result/' + str(job.random_id) + '/')
 
 		return render(request, self.template_name, {
 			'job': job
@@ -227,27 +231,6 @@ class SelectObject(View):
 			'job': job
 		})
 
-
-class CompareData(View):
-	"""
-		Compare Data loading page
-	"""
-
-	template_name = 'loading.html'
-
-	# When view is called via GET
-	def get(self, request, *args, **kwargs):
-
-		# Query for the job
-		job = get_object_or_404(Job, random_id = self.kwargs['job_id'])
-
-		if job.status == 'Finished':
-
-			return HttpResponseRedirect('/compare-data-result/' + str(job.random_id) + '/')
-
-		return render(request, self.template_name, {
-			'job': job
-		})
 
 
 # AJAX endpoint for page to constantly check if job is finished
@@ -409,13 +392,11 @@ def execute_data_compare(request, job_id, object_id):
 		# Parse POST detail to determine fields to compare on
 		fields = json.loads(request.body)
 
-		print fields
-
 		# Execute the job
 		compare_data_task.delay(job, object, fields)
 
 		# Redirect user
-		return HttpResponseRedirect('/comparing-data/' + str(job.random_id) + '/')
+		return HttpResponseRedirect('/loading/' + str(job.random_id) + '/')
 
 	else:
 
