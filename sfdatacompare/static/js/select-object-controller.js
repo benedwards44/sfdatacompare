@@ -107,9 +107,8 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
     // When the checkall checkbox is checked
     $scope.checkAllChange = function()
     {
-    	for (var i = 0; i < $scope.fields.length; i++)
-        {
-            $scope.fields[i].checked = $scope.checkAll;
-        }
+    	angular.forEach($scope.fields, function (field) {
+            field.checked = $scope.checkAll;
+        });
     }
 });
