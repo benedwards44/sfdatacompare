@@ -99,4 +99,4 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
 
         }
     }
-}
+});
