@@ -15,6 +15,9 @@ class Job(models.Model):
 	def sorted_orgs(self):
 		return self.org_set.order_by('org_number')
 
+	def sorted_objects(self):
+		return self.object_set.order_by('label')
+
 
 class Org(models.Model):
 	"""
@@ -41,6 +44,9 @@ class Object(models.Model):
 	label = models.CharField(max_length=255)
 	api_name = models.CharField(max_length=255)
 	order_by = models.CharField(max_length=255)
+
+	def sorted_fields(self):
+		return self.objectfield_set.order_by('label')
 
 
 class ObjectField(models.Model):
