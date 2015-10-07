@@ -262,7 +262,7 @@ def get_fields(request, job_id, object_id):
 			fields.append({
 				'id': field.id,
 				'label': field.label,
-				'api_name'; field.api_name
+				'api_name': field.api_name
 			})
 
 		# Return the list of fields to the page
