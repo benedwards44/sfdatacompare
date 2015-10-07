@@ -188,8 +188,8 @@ def get_objects_and_fields(job):
 
 	if org_one.status == 'Error' or org_two.status == 'Error':
 
-		job.status == 'Error'
-		job.error = 'There was an error downloading objects and fields for one of the objects: \n\n'
+		job.status = 'Error'
+		job.error = 'There was an error downloading objects and fields for one of the Orgs: \n\n'
 
 		if org_one.error:
 			job.error += org_one.error
