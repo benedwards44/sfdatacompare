@@ -13,20 +13,28 @@
 
 	<hr />
 
-	<div class="col-md-3">
-		<h2 class="no-margin">Select Object</h2>
-	</div>
+	<div ng-app="selectObjectsApp">
 
-	<div class="col-md-6">
-		<select class="form-control" id="object-select" ng-model="objectId" ng-change="objectChange()">
-			<option value="">-- Select Option --</option>
-			{% for object in job.sorted_objects %}
-				<option value="{{ object.id }}">{{ object.label }} ({{ object.api_name }})</option>
-			{% endfor %}
-		</select>
-	</div>
+		<div ng-controller="SelectObjectsController" ng-init="init('{{ job.random_id }}')">
 
-	<div class="col-md-12" class="field-select"></div>
+			<div class="col-md-3">
+				<h2 class="no-margin">Select Object</h2>
+			</div>
+
+			<div class="col-md-6">
+				<select class="form-control" id="object-select" ng-model="objectId" ng-change="objectChange()">
+					<option value="">-- Select Option --</option>
+					{% for object in job.sorted_objects %}
+						<option value="{{ object.id }}">{{ object.label }} ({{ object.api_name }})</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			<div class="col-md-12" class="field-select"></div>
+
+		</div>
+
+	</div>
 
 	<div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
