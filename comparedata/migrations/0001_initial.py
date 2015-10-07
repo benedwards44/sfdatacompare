@@ -36,16 +36,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('label', models.CharField(max_length=255)),
                 ('api_name', models.CharField(max_length=255)),
-                ('object', models.ForeignKey(to='comparedata.Object')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='ObjectFieldJob',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('status', models.CharField(max_length=255, blank=True)),
-                ('error', models.TextField(blank=True)),
-                ('job', models.ForeignKey(to='comparedata.Job')),
+                ('type', models.CharField(max_length=255)),
                 ('object', models.ForeignKey(to='comparedata.Object')),
             ],
         ),
