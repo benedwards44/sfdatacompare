@@ -262,7 +262,8 @@ def get_fields(request, job_id, object_id):
 			fields.append({
 				'id': field.id,
 				'label': field.label,
-				'api_name': field.api_name
+				'api_name': field.api_name,
+				'type': field.type
 			})
 
 		# Return the list of fields to the page
@@ -341,13 +342,16 @@ def get_fields(request, job_id, object_id):
 
 					new_field.save()
 
-					# Append to return list
-					fields.append({
-						'id': new_field.id,
-						'label': new_field.label,
-						'api_name': new_field.api_name,
-						'type': new_field.type
-					})
+			# Re-query fields to sort alphabetically
+			for field in ObjectField.objects.filter(object = object).order_by('label'):
+
+				# Append to return list
+				fields.append({
+					'id': field.id,
+					'label': field.label,
+					'api_name': field.api_name,
+					'type': field.type
+				})
 
 			# Return the list of fields to the page
 			return HttpResponse(json.dumps(fields), content_type = 'application/json')
