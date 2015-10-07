@@ -89,6 +89,7 @@ def get_objects_and_fields(job):
 					# Add object to unique list
 					object_list.append(sObject['name'])
 
+					"""
 					# query for fields in the object
 					all_fields = requests.get(
 						org_one.instance_url + sObject['urls']['describe'], 
@@ -103,6 +104,7 @@ def get_objects_and_fields(job):
 
 						# Add unique field name to the list
 						field_list.append(sObject['name'] + '.' + field['name'])
+					"""
 
 			org_one.status = 'Finished'
 
@@ -144,6 +146,7 @@ def get_objects_and_fields(job):
 					new_object.label = sObject['label']
 					new_object.save()
 
+					"""
 					# query for fields in the object
 					all_fields = requests.get(
 						org_two.instance_url + sObject['urls']['describe'], 
@@ -169,7 +172,8 @@ def get_objects_and_fields(job):
 							new_field.label = field['label']
 							new_field.save()
 
-					
+					"""
+
 			org_two.status = 'Finished'
 
 		else:

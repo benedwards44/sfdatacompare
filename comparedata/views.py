@@ -240,3 +240,11 @@ def job_status(request, job_id):
 
 	return HttpResponse(json.dumps(response_data), content_type = 'application/json')
 
+
+# Endpoint called from AJAX to trigger field query for an object
+#def get_fields_for_object(request, job_id):
+
+
+
+
+#def get_fields_job_status(request, job_id):
