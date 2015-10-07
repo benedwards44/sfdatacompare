@@ -35,6 +35,12 @@
 				<br/><br/>
 
 				{% verbatim %}
+
+				<div class="col-md-6 col-md-offset 3">
+					<button class="btn btn-success">Compare Data</button>
+				</div>
+
+				<br/><br/>
 				
 				<table class="table table-hover table-striped" id="fields_table">
 
@@ -54,7 +60,7 @@
 			    			<td><input type="checkbox"></td>
 			    			<td>{{ field.label }}</td>
 			    			<td>{{ field.api_name }}</td>
-			    			<td></td>
+			    			<td>{{ field.type }}</td>
 			    		</tr>
 
 			    	</tbody>

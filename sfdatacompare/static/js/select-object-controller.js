@@ -35,7 +35,7 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
         {
         	// Clear the fields
         	$scope.fields = [];
-        	
+
         	// Query for objects
         	updateModal(
 				'Querying fields.',
@@ -76,6 +76,7 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
                             'id': data[i].id,
 							'label': data[i].label,
 							'api_name': data[i].api_name,
+							'type': data[i].type
                         };
 
                         // Push to array
