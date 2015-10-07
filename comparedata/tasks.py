@@ -196,6 +196,10 @@ def get_objects_and_fields(job):
 
 		if org_two.error:
 			job.error += '\n\n' + org_two.error
+
+	else:
+
+		job.status = 'Finished'
 	
 	# Save the job as finished
 	job.finished_date = datetime.datetime.now()

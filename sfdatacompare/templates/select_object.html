@@ -20,8 +20,17 @@
 	<div class="col-md-6">
 		<select class="form-control">
 			<option value="">-- Select Option --</option>
+			{% for object in job.sorted_objects %}
+				<option value="{{ object.api_name }}">{{ object.label }} ({{ object.api_name }})</option>
+			{% endfor %}
 		</select>
 	</div>
 
+	<div class="col-md-12" class="field-select">
+
+
+
+
+	</div>
 
 {% endblock %}
