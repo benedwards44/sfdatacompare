@@ -343,7 +343,7 @@ def get_fields(request, job_id, object_id):
 
 					# If a formula field, set to formula and add the return type in brackets
 					if 'calculated' in field and (field['calculated'] == True or field['calculated'] == 'true'):
-						new_field.type = 'Formula (' + field['type'] + ')'
+						new_field.type = 'Formula (' + field['type'].title() + ')'
 
 					# lookup field
 					elif field['type'] == 'reference':
@@ -412,7 +412,7 @@ def execute_data_compare(request, job_id, object_id):
 		compare_data_task.delay(job, object, fields)
 
 		# Redirect user
-		return HttpResponseRedirect('/loading/' + str(job.random_id) + '/')
+		return HttpResponse('/loading/' + str(job.random_id) + '/')
 
 	else:
 

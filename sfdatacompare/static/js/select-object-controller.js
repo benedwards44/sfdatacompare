@@ -145,7 +145,7 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
             success(function(data, status) 
             {
                 // Redirect to the loading page
-                window.location = '/comparing-data/' + $scope.job_id + '/';
+                window.location = data;
             }).
             error(function(data, status) 
             {
