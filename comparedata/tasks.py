@@ -185,7 +185,7 @@ def get_objects_task(job):
 
 
 @app.task
-def get_objects_task(job): 
+def compare_data_task(job): 
 	"""
 		Async method to compare the data between selected object and fields
 	"""	

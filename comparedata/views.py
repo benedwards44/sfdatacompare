@@ -5,7 +5,7 @@ from django.conf import settings
 from comparedata.forms import JobForm
 from comparedata.models import Job, Org, Object, ObjectField
 from django.http import HttpResponse, HttpResponseRedirect
-from comparedata.tasks import get_objects_task, compare_data
+from comparedata.tasks import get_objects_task, compare_data_task
 
 import sys
 import datetime
