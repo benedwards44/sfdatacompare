@@ -392,8 +392,9 @@ def get_fields(request, job_id, object_id):
 # AJAX endpoint to execute the data compare job
 def execute_data_compare(request, job_id, object_id):
 
-	# Query for the job
+	# Query for the job and object
 	job = get_object_or_404(Job, random_id = job_id)
+	object = get_object_or_404(Object, pk = object_id)
 
 	# If POST request made
 	if request.method == 'POST':
@@ -411,7 +412,7 @@ def execute_data_compare(request, job_id, object_id):
 		print fields
 
 		# Execute the job
-		get_objects_task.compare_data(job)
+		get_objects_task.compare_data(job, object, fields)
 
 		# Redirect user
 		return HttpResponseRedirect('/comparing-data/' + str(job.random_id) + '/')
