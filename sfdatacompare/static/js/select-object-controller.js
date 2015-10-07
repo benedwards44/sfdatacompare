@@ -115,6 +115,36 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
     // When the compare button is checked.
     $scope.compareData = function()
     {
-    	alert('GO.');
+    	// The list of fields to compare
+    	fields_to_compare = [];
+
+    	// Iterate over the fields
+    	angular.forEach($scope.fields, function (field) {
+ 
+ 			// If the field is checked, add it to the list
+    		if (field.checked) {
+
+    			fields_to_compare.push(field.api_name);
+    		}
+    	}
+
+    	// Execute logic to being the data compare job
+    	if (fields_to_compare.length > 0) {
+
+    		alert('GO.');
+
+    	}
+    	// No fields are checked, return an error
+    	else {
+
+    		updateModal(
+				'No Fields Selected',
+				'<div class="alert alert-danger" role="alert">No fields selected. Please choose at least 1 field to compare on.</div>',
+				true
+			);
+
+    		// Close the modal
+            $('#progressModal').modal();
+    	}
     }
 });
