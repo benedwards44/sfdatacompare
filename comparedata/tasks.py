@@ -17,7 +17,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfdatacompare.settings')
 app = Celery('tasks', broker=os.environ.get('REDIS_URL', 'redis://localhost'))
 
 from django.conf import settings
-from comparedata.models import Job, Org, Object, ObjectField, CompareDataResult
+from comparedata.models import Job, Org, Object, ObjectField
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
