@@ -16,10 +16,10 @@ class Job(models.Model):
 	object_label = models.CharField(max_length=1000, blank=True)
 	object_name = models.CharField(max_length=1000, blank=True)
 	fields = models.CharField(max_length=1000, blank=True)
-	row_count_org_one = models.IntegerField()
-	row_count_org_two = models.IntegerField()
-	matching_rows_count = models.IntegerField()
-	unmatching_rows_count = models.IntegerField()
+	row_count_org_one = models.IntegerField(null=True,blank=True)
+	row_count_org_two = models.IntegerField(null=True,blank=True)
+	matching_rows_count = models.IntegerField(null=True,blank=True)
+	unmatching_rows_count = models.IntegerField(null=True,blank=True)
 
 	def sorted_orgs(self):
 		return self.org_set.order_by('org_number')
