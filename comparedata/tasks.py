@@ -188,7 +188,12 @@ def get_objects_task(job):
 def compare_data_task(job, object, fields): 
 	"""
 		Async method to compare the data between selected object and fields
-	"""	
+	
+	"""
+
+	pass
+
+	"""
 
 	# Update the status
 	job.status = 'Comparing Data'
@@ -319,3 +324,4 @@ def compare_data_task(job, object, fields):
 
 	# Save the job
 	job.save()
+	"""
