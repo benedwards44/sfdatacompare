@@ -231,9 +231,9 @@ def compare_data_task(job, object, fields):
 
 			# Query for the 2nd org
 			org_two_records = requests.get(
-				org_one.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/query/?q=' + soql_query, 
+				org_two.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/query/?q=' + soql_query, 
 				headers={
-					'Authorization': 'Bearer ' + org_one.access_token, 
+					'Authorization': 'Bearer ' + org_two.access_token, 
 					'content-type': 'application/json'
 				}
 			)
