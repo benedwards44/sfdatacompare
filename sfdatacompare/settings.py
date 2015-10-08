@@ -109,6 +109,7 @@ POSTMARK_TEST_MODE   = False
 POSTMARK_TRACK_OPENS = False
 
 # SALESFORCE KEYS
+"""
 SALESFORCE_CONSUMER_KEY = os.environ['SALESFORCE_CONSUMER_KEY']
 SALESFORCE_CONSUMER_SECRET = os.environ['SALESFORCE_CONSUMER_SECRET']
 SALESFORCE_REDIRECT_URI = 'https://sfdatacompare.herokuapp.com/oauth-response'
@@ -137,6 +138,7 @@ CACHES = {
          }
     }
 }
+"""
 
 
 # A sample logging configuration. The only tangible logging

@@ -65,4 +65,13 @@ class Migration(migrations.Migration):
                 ('job', models.ForeignKey(blank=True, to='comparedata.Job', null=True)),
             ],
         ),
+        migrations.CreateModel(
+            name='UnmatchedRecord',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('data', models.TextField()),
+                ('job', models.ForeignKey(to='comparedata.Job')),
+                ('org', models.ForeignKey(to='comparedata.Org')),
+            ],
+        ),
     ]

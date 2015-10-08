@@ -46,6 +46,9 @@ class Org(models.Model):
 	status = models.CharField(max_length=255, blank=True)
 	error = models.TextField(blank=True)
 
+	def unmatched_records(self):
+		return self.unmatchedrecord_set.all()
+
 
 class Object(models.Model):
 	"""
@@ -71,13 +74,12 @@ class ObjectField(models.Model):
 	type = models.CharField(max_length=255)
 
 
-"""
-class UnmatchRecord(models.Model):
-	
+class UnmatchedRecord(models.Model):
+	"""
 		Object which holds a record that exists in one Org and not the other 
-	
+	"""
 
 	job = models.ForeignKey(Job)
 	org = models.ForeignKey(Org)
+	data = models.TextField() # The JSON array of fields and field value
 
-"""
