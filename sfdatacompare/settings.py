@@ -92,7 +92,7 @@ DATABASES = {
 
 # Celery settings
 BROKER_POOL_LIMIT = 1
-
+ 
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
