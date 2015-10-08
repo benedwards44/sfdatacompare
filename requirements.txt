@@ -18,5 +18,4 @@ requests==2.7.0
 static==1.1.1
 static3==0.6.1
 suds==0.4
-waitress==0.8.10
 whitenoise==2.0.4
