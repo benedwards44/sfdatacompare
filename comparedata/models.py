@@ -13,6 +13,7 @@ class Job(models.Model):
 	error = models.TextField(blank=True)
 
 	# Data Compare Results
+	object_id = models.PositiveSmallIntegerField(null=True,blank=True)
 	object_label = models.CharField(max_length=1000, blank=True)
 	object_name = models.CharField(max_length=1000, blank=True)
 	fields = models.CharField(max_length=1000, blank=True)

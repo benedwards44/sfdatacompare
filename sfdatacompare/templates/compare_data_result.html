@@ -56,7 +56,7 @@
 			</tr>
 			<tr>
 				<th>Unmatching Rows</th>
-				<td colspan="2">{{ job.unmatching_rows_count }</td>
+				<td colspan="2">{{ job.unmatching_rows_count }}</td>
 			</tr>
 
 		</table>
@@ -73,7 +73,28 @@
 
 			$('#rerunJob').click(function () {
 
-				alert('hello');
+				$.ajax({
+				    url: '/compare-data/{{ job.random_id }}/{{ job.object_id }}/',
+				    type: 'POST',
+				    dataType: 'json',
+				    success: function(resp) 
+				    {
+				        // Redirect to the loading page
+	                	window.location = data;
+				    },
+				    failure: function(resp) 
+				    { 
+						// Return error in a modal
+		                updateModal(
+		                    'Error Executing Data Compare',
+		                    '<div class="alert alert-danger" role="alert">There was an error executing the data compare job.' + data + '</div>',
+		                    true
+		                );
+
+		                // Close the modal
+		                $('#progressModal').modal();
+				    }
+				});
 
 			});
 

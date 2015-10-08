@@ -423,6 +423,10 @@ def execute_data_compare(request, job_id, object_id):
 		# Parse POST data into array
 		all_fields = json.loads(request.body)
 
+		# If there's no fields in the POSt, it's a rerun job
+		if not all_fields:
+			all_fields = job.fields.split(',')
+
 		# Update the status
 		job.status = 'Begin Data Compare'
 		job.save()

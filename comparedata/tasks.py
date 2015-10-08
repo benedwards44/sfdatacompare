@@ -203,6 +203,7 @@ def compare_data_task(job, object, fields):
 		# Set the object against the job
 		job.object = object
 		job.fields = ', '.join(fields)
+		job.object_id = object.id
 		job.object_label = object.label
 		job.object_name = object.api_name
 
