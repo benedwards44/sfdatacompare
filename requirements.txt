@@ -7,7 +7,7 @@ dj-static==0.0.6
 Django==1.8.4
 django-redis-cache==1.6.0
 django-sslify==0.2.7
-gunicorn==19.3.0
+gunicorn==19.0.0
 kombu==3.0.26
 psycopg2==2.6.1
 pystache==0.5.4
