@@ -231,6 +231,17 @@ def compare_data_task(job, object, fields):
 		# Set the total row count
 		job.row_count_org_two = org_two_records['totalSize']
 
+		# Determine matching rows
+
+		# Iterate over 1st record
+		for org_one_record in org_one_records.json()['records']:
+
+			# Iterate over 2nd record
+			for org_two_record in org_two_records.json()['records']:
+
+				pass
+
+
 		# Set the status to finished
 		job.status = 'Finished'
 
