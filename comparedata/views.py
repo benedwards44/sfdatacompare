@@ -311,6 +311,17 @@ def get_fields(request, job_id, object_id):
 				}
 			)
 
+			# If there was an error with the request
+			if org_one_fields.status_code != 200:
+
+				# Set response data for page
+				response_data = {
+					'error': True,
+					'errorMessage': 'Error querying fields for Org One\n\n' + org_one_fields.json()[0]['errorCode'] + ': ' + org_one_fields.json()[0]['message']
+				}
+
+				return HttpResponse(json.dumps(response_data), content_type = 'application/json')
+
 			# Loop through the org one fields
 			for field in org_one_fields.json()['fields']:
 				field_list.append(field['name'])
@@ -323,6 +334,17 @@ def get_fields(request, job_id, object_id):
 					'content-type': 'application/json'
 				}
 			)
+
+			# If there was an error with the request
+			if org_two_fields.status_code != 200:
+
+				# Set response data for page
+				response_data = {
+					'error': True,
+					'errorMessage': 'Error querying fields for Org One\n\n' + org_two_fields.json()[0]['errorCode'] + ': ' + org_two_fields.json()[0]['message']
+				}
+
+				return HttpResponse(json.dumps(response_data), content_type = 'application/json')
 
 			# Field list
 			fields = []

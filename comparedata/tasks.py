@@ -202,7 +202,7 @@ def compare_data_task(job, object, fields):
 
 		# Set the object against the job
 		job.object = object
-		job.fields = ','.join(fields)
+		job.fields = ', '.join(fields)
 		job.object_label = object.label
 		job.object_name = object.api_name
 
@@ -218,34 +218,48 @@ def compare_data_task(job, object, fields):
 			}
 		)
 
-		# Set the total row count
-		job.row_count_org_one = org_one_records.json()['totalSize']
+		if org_one_records.status_code != 200:
 
-		# Query for the 2nd org
-		org_two_records = requests.get(
-			org_one.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/query/?q=' + soql_query, 
-			headers={
-				'Authorization': 'Bearer ' + org_one.access_token, 
-				'content-type': 'application/json'
-			}
-		)
+			job.status = 'Error'
+			job.error = 'There was an error querying records for org one:\n\n' + org_one_records.json()[0]['errorCode'] + ': ' + org_one_records.json()[0]['message'] 
 
-		# Set the total row count
-		job.row_count_org_two = org_two_records.json()['totalSize']
+		else:
 
-		# Determine matching rows
+			# Set the total row count
+			job.row_count_org_one = org_one_records.json()['totalSize']
 
-		# Iterate over 1st record
-		for org_one_record in org_one_records.json()['records']:
+			# Query for the 2nd org
+			org_two_records = requests.get(
+				org_one.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/query/?q=' + soql_query, 
+				headers={
+					'Authorization': 'Bearer ' + org_one.access_token, 
+					'content-type': 'application/json'
+				}
+			)
 
-			# Iterate over 2nd record
-			for org_two_record in org_two_records.json()['records']:
+			if org_two_records.status_code != 200:
 
-				pass
+				job.status = 'Error'
+				job.error = 'There was an error querying records for org two:\n\n' + org_two_records.json()[0]['errorCode'] + ': ' + org_two_records.json()[0]['message'] 
+
+			else:
+
+				# Set the total row count
+				job.row_count_org_two = org_two_records.json()['totalSize']
+
+				# Determine matching rows
+
+				# Iterate over 1st record
+				for org_one_record in org_one_records.json()['records']:
+
+					# Iterate over 2nd record
+					for org_two_record in org_two_records.json()['records']:
+
+						pass
 
 
-		# Set the status to finished
-		job.status = 'Finished'
+				# Set the status to finished
+				job.status = 'Finished'
 
 	except:
 
