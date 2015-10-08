@@ -79,14 +79,14 @@
 				    success: function(resp) 
 				    {
 				        // Redirect to the loading page
-	                	window.location = data;
+	                	window.location = resp;
 				    },
 				    failure: function(resp) 
 				    { 
 						// Return error in a modal
 		                updateModal(
 		                    'Error Executing Data Compare',
-		                    '<div class="alert alert-danger" role="alert">There was an error executing the data compare job.' + data + '</div>',
+		                    '<div class="alert alert-danger" role="alert">There was an error executing the data compare job.' + resp + '</div>',
 		                    true
 		                );
 
