@@ -19,6 +19,8 @@
 
 	<div class="col-md-12">
 
+		<br/>
+
 		<p>
 			And the results are in! The information below displays a comparison of the records between the two orgs, for the selected object and the selected fields.
 		</p>
@@ -33,7 +35,10 @@
 			</tr>
 			<tr>
 				<th>Fields</th>
-				<td colspan="2">{{ job.object_label }} ({{ job.object_name }})</td>
+				<td colspan="2">{{ job.fields }}</td>
+			</tr>
+			<tr>
+				<td colspan="3"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -42,11 +47,6 @@
 			</tr>
 			<tr>
 				<th># Records</th>
-				<td>{{ job.row_count_org_one }}</td>
-				<td>{{ job.row_count_org_two }}</td>
-			</tr>
-			<tr>
-				<td># Records</td>
 				<td>{{ job.row_count_org_one }}</td>
 				<td>{{ job.row_count_org_two }}</td>
 			</tr>
