@@ -250,7 +250,9 @@ def compare_data_task(job, object, fields):
 
 				# List of concatenated fields from the 1st org
 				org_one_records_distinct = []
+				org_two_records_distinct = []
 				org_one_records_map = {}
+				org_two_records_map = {}
 
 				# Iterate over 1st record
 				for record in org_one_records.json()['records']:
@@ -267,10 +269,6 @@ def compare_data_task(job, object, fields):
 					# Add the string to a map of the record
 					org_one_records_map[unique_string] = record
 
-
-				# List of concatenated fields from the 2nd org
-				org_two_records_distinct = []
-				org_two_records_map = {}
 
 				# Iterate over 2nd record
 				for record in org_two_records.json()['records']:
@@ -307,8 +305,6 @@ def compare_data_task(job, object, fields):
 					else:
 						job.unmatching_rows_count_org_two = job.unmatching_rows_count_org_two + 1
 
-				job.matching_rows_count_org_two = 500
-				job.unmatching_rows_count_org_two = 1000
 
 				# Set the status to finished
 				job.status = 'Finished'
