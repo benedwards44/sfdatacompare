@@ -248,15 +248,56 @@ def compare_data_task(job, object, fields):
 				# Set the total row count
 				job.row_count_org_two = org_two_records.json()['totalSize']
 
-				# Determine matching rows
+				# List of concatenated fields from the 1st org
+				org_one_records_distinct = []
 
 				# Iterate over 1st record
-				for org_one_record in org_one_records.json()['records']:
+				for record in org_one_records.json()['records']:
 
-					# Iterate over 2nd record
-					for org_two_record in org_two_records.json()['records']:
+					unique_string = ''
 
-						pass
+					# Iterate over the fields
+					for field in fields:
+						unique_string += record[field]
+
+					# Add the string to the unique list
+					org_one_records_distinct.append(unique_string)
+
+
+				# List of concatenated fields from the 2nd org
+				org_two_records_distinct = []
+
+				# Iterate over 2nd record
+				for record in org_two_records.json()['records']:
+
+					unique_string = ''
+
+					# Iterate over the fields
+					for field in fields:
+						unique_string += record[field]
+
+					# Add the string to the unique list
+					org_two_records_distinct.append(unique_string)
+
+				# Now count matching and unmatching records
+				job.matching_rows_count_org_one = 0
+				job.unmatching_rows_count_org_one = 0
+				job.matching_rows_count_two_one = 0
+				job.matching_rows_count_two_one = 0
+
+				# Iterate over list one and match against the 2nd list
+				for value in org_one_records_distinct:
+					if value in org_two_records_distinct:
+						job.matching_rows_count_org_one = job.matching_rows_count_org_one + 1
+					else:
+						job.unmatching_rows_count_org_one = job.unmatching_rows_count_org_one + 1
+
+				# Iterate over list two and match against the 1st list
+				for value in org_two_records_distinct:
+					if value in org_one_records_distinct:
+						job.matching_rows_count_two_one = job.matching_rows_count_two_one + 1
+					else:
+						job.matching_rows_count_two_one = job.matching_rows_count_two_one + 1
 
 
 				# Set the status to finished
