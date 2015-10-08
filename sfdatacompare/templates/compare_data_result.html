@@ -20,8 +20,46 @@
 	<div class="col-md-12">
 
 		<p>
-			And the results are in...
+			And the results are in! The information below displays a comparison of the records between the two orgs, for the selected object and the selected fields.
 		</p>
+
+		<hr/>
+
+		<table class="table table-hover table-striped">
+
+			<tr>
+				<th>Object</th>
+				<td colspan="2">{{ job.object_label }} ({{ job.object_name }})</td>
+			</tr>
+			<tr>
+				<th>Fields</th>
+				<td colspan="2">{{ job.object_label }} ({{ job.object_name }})</td>
+			</tr>
+			<tr>
+				<td></td>
+				<th>{{ job.sorted_orgs[0].username }}</th>
+				<th>{{ job.sorted_orgs[1].username }}</th>
+			</tr>
+			<tr>
+				<th># Records</th>
+				<td>{{ job.row_count_org_one }}</td>
+				<td>{{ job.row_count_org_two }}</td>
+			</tr>
+			<tr>
+				<td># Records</td>
+				<td>{{ job.row_count_org_one }}</td>
+				<td>{{ job.row_count_org_two }}</td>
+			</tr>
+			<tr>
+				<th>Matching Rows</th>
+				<td colspan="2" class="success">{{ job.matching_rows_count }}</td>
+			</tr>
+			<tr>
+				<th>Unmatching Rows</th>
+				<td colspan="2" class="danger">{{ job.unmatching_rows_count }</td>
+			</tr>
+
+		</table>
 
 	</div>
 

@@ -203,6 +203,8 @@ def compare_data_task(job, object, fields):
 		# Set the object against the job
 		job.object = object
 		job.fields = ','.join(fields)
+		job.object_label = object.label
+		job.object_name = object.api_name
 
 		# Build the SOQL query
 		soql_query = 'SELECT+' + ','.join(fields) + '+FROM+' + object.api_name
