@@ -11,6 +11,16 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='CompareDataResult',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('row_count_org_one', models.IntegerField()),
+                ('row_count_org_two', models.IntegerField()),
+                ('matching_rows_count', models.IntegerField()),
+                ('unmatching_rows_count', models.IntegerField()),
+            ],
+        ),
+        migrations.CreateModel(
             name='Job',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -54,5 +64,15 @@ class Migration(migrations.Migration):
                 ('error', models.TextField(blank=True)),
                 ('job', models.ForeignKey(blank=True, to='comparedata.Job', null=True)),
             ],
+        ),
+        migrations.AddField(
+            model_name='comparedataresult',
+            name='job',
+            field=models.ForeignKey(to='comparedata.Job'),
+        ),
+        migrations.AddField(
+            model_name='comparedataresult',
+            name='object',
+            field=models.ForeignKey(to='comparedata.Object'),
         ),
     ]

@@ -58,3 +58,18 @@ class ObjectField(models.Model):
 	api_name = models.CharField(max_length=255)
 	type = models.CharField(max_length=255)
 
+
+class CompareDataResult(models.Model):
+	"""
+		Object to hold top level results for the data compare 
+	"""
+
+	job = models.ForeignKey(Job)
+	object = models.ForeignKey(Object)
+	row_count_org_one = models.IntegerField()
+	row_count_org_two = models.IntegerField()
+	matching_rows_count = models.IntegerField()
+	unmatching_rows_count = models.IntegerField()
+
+
+	

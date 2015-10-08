@@ -37,7 +37,7 @@ selectObjectsApp.controller("SelectObjectsController", function($scope, $http, $
 
         	// Query for objects
         	updateModal(
-				'Querying fields.',
+				'Querying fields...',
 				'<div>Querying both Orgs to determine matching fields for the selected object.</div><div class="progress"><div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div>',
 				false
 			);
