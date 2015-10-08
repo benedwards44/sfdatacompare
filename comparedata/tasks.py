@@ -289,8 +289,8 @@ def compare_data_task(job, object, fields):
 
 				# Now count matching and unmatching records
 				job.matching_rows_count_org_one = 0
-				job.unmatching_rows_count_org_one = 0
 				job.matching_rows_count_org_two = 0
+				job.unmatching_rows_count_org_one = 0
 				job.unmatching_rows_count_org_two = 0
 
 				# Iterate over list one and match against the 2nd list
@@ -307,8 +307,7 @@ def compare_data_task(job, object, fields):
 					else:
 						job.unmatching_rows_count_org_two = job.unmatching_rows_count_org_two + 1
 
-				job.matching_rows_count_org_two = 500
-				job.unmatching_rows_count_org_two = 1000
+
 
 				# Set the status to finished
 				job.status = 'Finished'
