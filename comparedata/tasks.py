@@ -259,7 +259,7 @@ def compare_data_task(job, object, fields):
 
 					# Iterate over the fields
 					for field in fields:
-						unique_string += record[field]
+						unique_string += str(record[field])
 
 					# Add the string to the unique list
 					org_one_records_distinct.append(unique_string)
@@ -279,7 +279,7 @@ def compare_data_task(job, object, fields):
 
 					# Iterate over the fields
 					for field in fields:
-						unique_string += record[field]
+						unique_string += str(record[field])
 
 					# Add the string to the unique list
 					org_two_records_distinct.append(unique_string)
