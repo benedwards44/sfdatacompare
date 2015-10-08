@@ -17,7 +17,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfdatacompare.settings')
 app = Celery('tasks', broker=os.environ.get('REDIS_URL', 'redis://localhost'))
 
 from django.conf import settings
-from comparedata.models import Job, Org, Object, ObjectField
+from comparedata.models import Job, Org, Object, ObjectField, CompareDataResult
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -194,9 +194,50 @@ def compare_data_task(job, object, fields):
 	job.status = 'Comparing Data'
 	job.save()
 
+	try:
 
+		# The orgs used for querying
+		org_one = job.sorted_orgs()[0]
+		org_two = job.sorted_orgs()[1]
 
+		# Set the object against the job
+		job.object = object
+		job.fields = ','.join(fields)
 
+		# Build the SOQL query
+		soql_query = 'SELECT+' + ','.join(fields) + '+FROM+' object.api_name
 
-	job.status = 'Finished'
+		# Query the 1st org
+		org_one_records = requests.get(
+			org_one.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/query/?q=' + soql_query, 
+			headers={
+				'Authorization': 'Bearer ' + org_one.access_token, 
+				'content-type': 'application/json'
+			}
+		)
+
+		# Set the total row count
+		job.row_count_org_one = org_one_records['totalSize']
+
+		# Query for the 2nd org
+		org_two_records = requests.get(
+			org_one.instance_url + '/services/data/v' + str(settings.SALESFORCE_API_VERSION) + '.0/query/?q=' + soql_query, 
+			headers={
+				'Authorization': 'Bearer ' + org_one.access_token, 
+				'content-type': 'application/json'
+			}
+		)
+
+		# Set the total row count
+		job.row_count_org_two = org_two_records['totalSize']
+
+		# Set the status to finished
+		job.status = 'Finished'
+
+	except:
+
+		job.status = 'Error'
+		job.error = traceback.format_exc()
+
+	# Save the job
 	job.save()

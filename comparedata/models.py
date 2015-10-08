@@ -12,6 +12,15 @@ class Job(models.Model):
 	status = models.CharField(max_length=255, blank=True)
 	error = models.TextField(blank=True)
 
+	# Data Compare Results
+	object_label = models.CharField(max_length=1000, blank=True)
+	object_name = models.CharField(max_length=1000, blank=True)
+	fields = models.CharField(max_length=1000, blank=True)
+	row_count_org_one = models.IntegerField()
+	row_count_org_two = models.IntegerField()
+	matching_rows_count = models.IntegerField()
+	unmatching_rows_count = models.IntegerField()
+
 	def sorted_orgs(self):
 		return self.org_set.order_by('org_number')
 
@@ -59,17 +68,3 @@ class ObjectField(models.Model):
 	type = models.CharField(max_length=255)
 
 
-class CompareDataResult(models.Model):
-	"""
-		Object to hold top level results for the data compare 
-	"""
-
-	job = models.ForeignKey(Job)
-	object = models.ForeignKey(Object)
-	row_count_org_one = models.IntegerField()
-	row_count_org_two = models.IntegerField()
-	matching_rows_count = models.IntegerField()
-	unmatching_rows_count = models.IntegerField()
-
-
-	
