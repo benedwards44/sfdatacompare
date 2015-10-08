@@ -11,7 +11,7 @@
 			<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
 			&nbsp; Select Another Object
 		</a>
-		<a href="/select-object/{{ job.random_id }}" class="btn btn-warning" style="margin-top: 20px;">
+		<a href="#" class="btn btn-warning" id="rerunJob" style="margin-top: 20px;">
 			Rerun &nbsp;
 			<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
 		</a>
@@ -52,15 +52,32 @@
 			</tr>
 			<tr>
 				<th>Matching Rows</th>
-				<td colspan="2" class="success">{{ job.matching_rows_count }}</td>
+				<td colspan="2">{{ job.matching_rows_count }}</td>
 			</tr>
 			<tr>
 				<th>Unmatching Rows</th>
-				<td colspan="2" class="danger">{{ job.unmatching_rows_count }</td>
+				<td colspan="2">{{ job.unmatching_rows_count }</td>
 			</tr>
 
 		</table>
 
 	</div>
 
+{% endblock %}
+
+{% block scripts %}
+
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+
+			$('#rerunJob').click(function () {
+
+				alert('hello');
+
+			});
+
+		});
+
+	</script>
 {% endblock %}
