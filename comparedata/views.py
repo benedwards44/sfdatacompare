@@ -421,31 +421,23 @@ def execute_data_compare(request, job_id, object_id):
 	if request.method == 'POST':
 
 		# Parse POST data into array
-		all_fields = json.loads(request.body)
-
-		# If there's no fields in the POSt, it's a rerun job
-		if not all_fields:
-			all_fields = job.fields.split(',')
-
-		# Update the status
-		job.status = 'Begin Data Compare'
-		job.save()
-
-		# Parse POST detail to determine fields to compare on
 		fields = json.loads(request.body)
-
-		# Execute the job
-		compare_data_task.delay(job, object, fields)
-
-		# Redirect user
-		return HttpResponse('/loading/' + str(job.random_id) + '/')
 
 	else:
 
-		return HttpResponse(
-			json.dumps({'error': 'No POST message.'}), 
-			content_type = 'application/json'
-		)
+		# Get the fields from the job
+		fields = job.fields.split(',')
+
+	# Update the status
+	job.status = 'Begin Data Compare'
+	job.save()
+
+	# Execute the job
+	compare_data_task.delay(job, object, fields)
+
+	# Return the URL to the page
+	return HttpResponse('/loading/' + str(job.random_id) + '/')
+
 
 
 
