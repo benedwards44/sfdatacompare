@@ -28,7 +28,6 @@
 		<hr/>
 
 		<table class="table table-hover table-striped">
-
 			<tr>
 				<th>Object</th>
 				<td colspan="2">{{ job.object_label }} ({{ job.object_name }})</td>
@@ -37,9 +36,11 @@
 				<th>Fields</th>
 				<td colspan="2">{{ job.fields }}</td>
 			</tr>
-			<tr>
-				<td colspan="3"></td>
-			</tr>
+		</table>
+
+		<br/>
+
+		<table class="table table-hover table-striped">
 			<tr>
 				<td></td>
 				<th>{{ job.sorted_orgs.0.username }}</th>
@@ -73,6 +74,10 @@
 
 		$(document).ready(function () {
 
+			// Enable tooltips
+			$('[data-toggle="tooltip"]').tooltip()
+
+			// When the rerun job button is clicked
 			$('#rerunJob').click(function () {
 
 				$.ajax({
