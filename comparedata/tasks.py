@@ -205,7 +205,7 @@ def compare_data_task(job, object, fields):
 		job.fields = ','.join(fields)
 
 		# Build the SOQL query
-		soql_query = 'SELECT+' + ','.join(fields) + '+FROM+' object.api_name
+		soql_query = 'SELECT+' + ','.join(fields) + '+FROM+' + object.api_name
 
 		# Query the 1st org
 		org_one_records = requests.get(
