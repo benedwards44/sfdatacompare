@@ -219,7 +219,7 @@ def compare_data_task(job, object, fields):
 		)
 
 		# Set the total row count
-		job.row_count_org_one = org_one_records['totalSize']
+		job.row_count_org_one = org_one_records.json()['totalSize']
 
 		# Query for the 2nd org
 		org_two_records = requests.get(
@@ -231,7 +231,7 @@ def compare_data_task(job, object, fields):
 		)
 
 		# Set the total row count
-		job.row_count_org_two = org_two_records['totalSize']
+		job.row_count_org_two = org_two_records.json()['totalSize']
 
 		# Determine matching rows
 
