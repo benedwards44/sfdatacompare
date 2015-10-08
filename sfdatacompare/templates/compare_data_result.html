@@ -75,9 +75,7 @@
 
 				$.ajax({
 				    url: '/compare-data/{{ job.random_id }}/{{ job.object_id }}/',
-				    type: 'POST',
-				    dataType: 'json',
-				    data: {},
+				    type: 'get',
 				    success: function(resp) 
 				    {
 				        // Redirect to the loading page
