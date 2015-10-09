@@ -11,6 +11,7 @@ import sqlite3
 import StringIO
 import glob
 import traceback
+import hashlib
 
 # Celery config
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfdatacompare.settings')
@@ -93,23 +94,6 @@ def get_objects_task(job):
 
 					# Add object to unique list
 					object_list.append(sObject['name'])
-
-					"""
-					# query for fields in the object
-					all_fields = requests.get(
-						org_one.instance_url + sObject['urls']['describe'], 
-						headers={
-							'Authorization': 'Bearer ' + org_one.access_token, 
-							'content-type': 'application/json'
-						}
-					)
-
-					# Loop through fields
-					for field in all_fields.json()['fields']:
-
-						# Add unique field name to the list
-						field_list.append(sObject['name'] + '.' + field['name'])
-					"""
 
 			org_one.status = 'Finished'
 
@@ -264,6 +248,9 @@ def compare_data_task(job, object, fields):
 					for field in fields:
 						unique_string += str(record[field])
 
+					# Convert to hash
+					unique_string = hash(unique_string)
+
 					# Add the string to the unique list
 					org_one_records_distinct.append(unique_string)
 
@@ -283,6 +270,9 @@ def compare_data_task(job, object, fields):
 					# Iterate over the fields
 					for field in fields:
 						unique_string += str(record[field])
+
+					# Convert to hash
+					unique_string = hash(unique_string)
 
 					# Add the string to the unique list
 					org_two_records_distinct.append(unique_string)
