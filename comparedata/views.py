@@ -456,6 +456,6 @@ def get_unmatched_rows(request, job_id, org_no):
 		unmatched_records.append(json.loads('"' + record + '"'))
 
 	# Return records to page
-	return HttpResponse(ast.literal_eval(json.dumps(unmatched_records)), content_type = 'application/json')
+	return HttpResponse(json.dumps(unmatched_records), content_type = 'application/json')
 
 	
