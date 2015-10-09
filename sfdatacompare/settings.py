@@ -31,10 +31,9 @@ ADMINS = (
     ('Ben Edwards', 'ben@benedwards.co.nz'),
 )
 
-ALLOWED_HOSTS = ['*']
-
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = (
