@@ -331,7 +331,7 @@ def compare_data_task(job, object, fields):
 						unmatched_record.org = org_two
 
 						# Populate the data with the data array
-						unmatched_record.data = json.dumps(org_one_records_map[value])
+						unmatched_record.data = json.dumps(org_two_records_map[value])
 
 						# Save the record
 						unmatched_record.save()
