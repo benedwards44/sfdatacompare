@@ -100,8 +100,10 @@
 									{% verbatim %}
 
 									<table class="table table-striped table-hover" id="orgone_table">
-										<thead ng-repeat="field in fields">
-											<th>{{ field }}</th>
+										<thead>
+											<tr>
+												<th ng-repeat="field in fields">{{ field }}</th>
+											</tr>
 										</thead>
 					    				<tbody>
 					    					<tr ng-repeat="record in org_one_records">
