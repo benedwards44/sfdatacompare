@@ -6,142 +6,150 @@
 		<h1>Salesforce Data Compare</h1>
 	</div>
 
-	<div class="col-md-6 text-right">
-		<a href="/select-object/{{ job.random_id }}" class="btn btn-info" style="margin-top: 20px;">
-			<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
-			&nbsp; Select Another Object
-		</a>
-		<a href="#" class="btn btn-warning" id="rerunJob" style="margin-top: 20px;">
-			Rerun &nbsp;
-			<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-		</a>
-	</div>
+	<div ng-app="compareResultsApp">
 
-	<div class="col-md-12">
+		<div ng-controller="CompareResultsController" ng-init="init('{{ job.random_id }}','{{ job.object_id }}')">
 
-		<br/>
+			<div class="col-md-6 text-right">
+				<a href="/select-object/{{ job.random_id }}/" class="btn btn-info" style="margin-top: 20px;">
+					<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+					&nbsp; Select Another Object
+				</a>
+				<a href="#" class="btn btn-warning" style="margin-top: 20px;" ng-click="rerunJob()">>
+					Rerun &nbsp;
+					<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+				</a>
+			</div>
 
-		<p>
-			And the results are in! The information below displays a comparison of the records between the two orgs, for the selected object and the selected fields.
-		</p>
+			<div class="col-md-12">
 
-		<hr/>
+				<br/>
 
-		<table class="table table-hover table-striped">
-			<tr>
-				<th><h4 class="no-margin">Object</h4></th>
-				<td colspan="2">{{ job.object_label }} ({{ job.object_name }})</td>
-			</tr>
-			<tr>
-				<th><h4 class="no-margin">Fields</h4></th>
-				<td colspan="2">{{ job.fields }}</td>
-			</tr>
-		</table>
+				<p>
+					And the results are in! The information below displays a comparison of the records between the two orgs, for the selected object and the selected fields.
+				</p>
 
-		<br/>
+				<hr/>
 
-		<table class="table table-hover table-striped">
-			<tr>
-				<td></td>
-				<th><h4 class="no-margin">{{ job.sorted_orgs.0.username }}</h4></th>
-				<th><h4 class="no-margin">{{ job.sorted_orgs.1.username }}</h4></th>
-			</tr>
-			<tr>
-				<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in the object"># Records</span></th>
-				<td>{{ job.row_count_org_one }}</td>
-				<td>{{ job.row_count_org_two }}</td>
-			</tr>
-			<tr>
-				<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in one org, and also exists in the other"># Matching Rows</span></th>
-				<td>{{ job.matching_rows_count_org_one }}</td>
-				<td>{{ job.matching_rows_count_org_two }}</td>
-			</tr>
-			<tr>
-				<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in one org, but doesn't exist in the other"># Unmatching Rows</span></th>
-				<td>{{ job.unmatching_rows_count_org_one }}</td>
-				<td>{{ job.unmatching_rows_count_org_two }}</td>
-			</tr>
+				<table class="table table-hover table-striped">
+					<tr>
+						<th><h4 class="no-margin">Object</h4></th>
+						<td colspan="2">{{ job.object_label }} ({{ job.object_name }})</td>
+					</tr>
+					<tr>
+						<th><h4 class="no-margin">Fields</h4></th>
+						<td colspan="2">{{ job.fields }}</td>
+					</tr>
+				</table>
 
-		</table>
+				<br/>
 
-		<hr/>
+				<table class="table table-hover table-striped">
+					<tr>
+						<td></td>
+						<th><h4 class="no-margin">{{ job.sorted_orgs.0.username }}</h4></th>
+						<th><h4 class="no-margin">{{ job.sorted_orgs.1.username }}</h4></th>
+					</tr>
+					<tr>
+						<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in the object"># Records</span></th>
+						<td>{{ job.row_count_org_one }}</td>
+						<td>{{ job.row_count_org_two }}</td>
+					</tr>
+					<tr>
+						<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in one org, and also exists in the other"># Matching Rows</span></th>
+						<td>{{ job.matching_rows_count_org_one }}</td>
+						<td>{{ job.matching_rows_count_org_two }}</td>
+					</tr>
+					<tr>
+						<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in one org, but doesn't exist in the other"># Unmatching Rows</span></th>
+						<td>{{ job.unmatching_rows_count_org_one }}</td>
+						<td>{{ job.unmatching_rows_count_org_two }}</td>
+					</tr>
 
-		{% if job.unmatching_rows_count_org_one > 0 or job.unmatching_rows_count_org_two > 0 %}
+				</table>
 
-			<h2>Unmatched Records</h2>
+				<hr/>
 
-			<div class="unmatched-records">
+				{% if job.unmatching_rows_count_org_one > 0 or job.unmatching_rows_count_org_two > 0 %}
 
-				<!-- Nav tabs -->
-			  	<ul class="nav nav-tabs" role="tablist">
-			    	<li role="presentation" class="active">
-			    		<a href="#orgone" aria-controls="orgone" role="tab" data-toggle="tab">
-			    			{{ job.sorted_orgs.0.username }}
-			    		</a>
-			    	</li>
-			    	<li role="presentation">
-			    		<a href="#orgtwo" aria-controls="orgtwo" role="tab" data-toggle="tab">
-			    			{{ job.sorted_orgs.1.username }}
-			    		</a>
-			    	</li>
-			 	</ul>
+					<h2>Unmatched Records</h2>
 
-				<!-- Tab panes -->
-				<div class="tab-content">
+					<div class="unmatched-records">
 
-					<div role="tabpanel" class="tab-pane active" id="orgone">
+						<!-- Nav tabs -->
+					  	<ul class="nav nav-tabs" role="tablist">
+					    	<li role="presentation" class="active">
+					    		<a href="#orgone" aria-controls="orgone" role="tab" data-toggle="tab">
+					    			{{ job.sorted_orgs.0.username }}
+					    		</a>
+					    	</li>
+					    	<li role="presentation">
+					    		<a href="#orgtwo" aria-controls="orgtwo" role="tab" data-toggle="tab">
+					    			{{ job.sorted_orgs.1.username }}
+					    		</a>
+					    	</li>
+					 	</ul>
 
-						{% if job.unmatching_rows_count_org_one > 0 %}
-			    	
-							{% for record in job.sorted_orgs.0.unmatched_records %}
+						<!-- Tab panes -->
+						<div class="tab-content">
 
-								{{ record.data }}
+							<div role="tabpanel" class="tab-pane active" id="orgone">
 
-							{% endfor %}
+								{% if job.unmatching_rows_count_org_one > 0 %}
+					    	
+									{% for record in job.sorted_orgs.0.unmatched_records %}
 
-						{% else %}
+										{{ record.data }}
 
-							<div role="alert" class="alert alert-success">
-								There are no unmatched records for this Org.
+									{% endfor %}
+
+								{% else %}
+
+									<div role="alert" class="alert alert-success">
+										There are no unmatched records for this Org.
+									</div>
+
+								{% endif %}
+
 							</div>
 
-						{% endif %}
+					    	<div role="tabpanel" class="tab-pane" id="orgtwo">
+
+					    		{% if job.unmatching_rows_count_org_two > 0 %}
+					    	
+									{% for record in job.sorted_orgs.1.unmatched_records %}
+
+										{{ record.data }}
+
+									{% endfor %}
+
+								{% else %}
+
+									<div role="alert" class="alert alert-success">
+										There are no unmatched records for this Org.
+									</div>
+
+								{% endif %}
+					    	
+				    		</div>
+
+					  	</div>
 
 					</div>
 
-			    	<div role="tabpanel" class="tab-pane" id="orgtwo">
+				{% else %}
 
-			    		{% if job.unmatching_rows_count_org_two > 0 %}
-			    	
-							{% for record in job.sorted_orgs.1.unmatched_records %}
+					<div role="alert" class="alert alert-success">
+						Congrats! It looks like all your data is matching.
+					</div>
 
-								{{ record.data }}
+				{% endif %}
 
-							{% endfor %}
-
-						{% else %}
-
-							<div role="alert" class="alert alert-success">
-								There are no unmatched records for this Org.
-							</div>
-
-						{% endif %}
-			    	
-		    		</div>
-
-			  	</div>
+				<br/><br/><br/><br/>
 
 			</div>
 
-		{% else %}
-
-			<div role="alert" class="alert alert-success">
-				Congrats! It looks like all your data is matching.
-			</div>
-
-		{% endif %}
-
-		<br/><br/><br/><br/>
+		</div>
 
 	</div>
 
@@ -149,41 +157,12 @@
 
 {% block scripts %}
 
-	<script type="text/javascript">
+	<!-- Angular scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.min.js"></script>
 
-		$(document).ready(function () {
-
-			// Enable tooltips
-			$('[data-toggle="tooltip"]').tooltip()
-
-			// When the rerun job button is clicked
-			$('#rerunJob').click(function () {
-
-				$.ajax({
-				    url: '/compare-data/{{ job.random_id }}/{{ job.object_id }}/',
-				    type: 'get',
-				    success: function(resp) 
-				    {
-				        // Redirect to the loading page
-	                	window.location = resp;
-				    },
-				    failure: function(resp) 
-				    { 
-						// Return error in a modal
-		                updateModal(
-		                    'Error Executing Data Compare',
-		                    '<div class="alert alert-danger" role="alert">There was an error executing the data compare job.' + resp + '</div>',
-		                    true
-		                );
-
-		                // Close the modal
-		                $('#progressModal').modal();
-				    }
-				});
-
-			});
-
-		});
-
-	</script>
+	<!-- Angular controller -->
+	<script src="/static/js/compare-data-results-controller.js"></script>
+	
 {% endblock %}
