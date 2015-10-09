@@ -3,7 +3,7 @@ from django.views.generic.detail import View
 from django.views.generic.edit import FormView
 from django.conf import settings
 from comparedata.forms import JobForm
-from comparedata.models import Job, Org, Object, ObjectField
+from comparedata.models import Job, Org, Object, ObjectField, UnmatchedRecord
 from django.http import HttpResponse, HttpResponseRedirect
 from comparedata.tasks import get_objects_task, compare_data_task
 
