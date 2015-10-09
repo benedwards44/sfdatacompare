@@ -12,6 +12,7 @@ import datetime
 import uuid
 import requests
 import json	
+import ast
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -455,6 +456,6 @@ def get_unmatched_rows(request, job_id, org_no):
 		unmatched_records.append(json.loads('"' + record + '"'))
 
 	# Return records to page
-	return HttpResponse(json.dumps(unmatched_records), content_type = 'application/json')
+	return HttpResponse(ast.literal_eval(json.dumps(unmatched_records)), content_type = 'application/json')
 
 	
