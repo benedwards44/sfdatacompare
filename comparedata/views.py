@@ -439,7 +439,18 @@ def execute_data_compare(request, job_id, object_id):
 	return HttpResponse('/loading/' + str(job.random_id) + '/')
 
 
+# AJAX endpoint to get unmatched rows for a job and org
+def get_unmatched_rows(request, job_id, org_no):
 
+	# Query for the job and object
+	job = get_object_or_404(Job, random_id = job_id)
 
+	if org_no == 1:
 
+		return HttpResponse(json.dumps(job.sorted_orgs()[0].unmatched_records()), content_type = 'application/json')
 
+	else:
+
+		return HttpResponse(json.dumps(job.sorted_orgs()[1].unmatched_records()), content_type = 'application/json')
+
+	

@@ -17,7 +17,39 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
         $scope.object_id = object_id
 
         // Array of unmatched records to display
-        $scope.records = [];
+        $scope.one_one_records = [];
+
+        // Execute AJAX call
+    	$http(
+        {
+            method: 'GET',
+            url: '/unmatched-rows/' + $scope.job_id + '/1/',
+        }).
+        success(function(data, status) 
+        {
+            console.log(data);
+        }).
+        error(function(data, status) 
+        {
+            $('#orgone').html('<div role="alert" class="alert alert-danger">There was an error getting the unmatched rows for this org.');
+        });
+
+        $scope.one_two_records = [];
+
+        // Execute AJAX call
+    	$http(
+        {
+            method: 'GET',
+            url: '/unmatched-rows/' + $scope.job_id + '/2/',
+        }).
+        success(function(data, status) 
+        {
+            console.log(data);
+        }).
+        error(function(data, status) 
+        {
+            $('#orgtwo').html('<div role="alert" class="alert alert-danger">There was an error getting the unmatched rows for this org.');
+        });
 
         // Enable tooltips
 		$('[data-toggle="tooltip"]').tooltip();
