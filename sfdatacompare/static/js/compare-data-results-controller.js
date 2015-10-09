@@ -17,7 +17,7 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
         $scope.object_id = object_id
 
         // The list of fields that were matched
-        $scope.fields = fields.split(',')
+        $scope.fields = fields.split(', ')
 
         // Array of unmatched records from org one
         $scope.org_one_records = [];
