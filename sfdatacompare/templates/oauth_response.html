@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Salesforce.com Data Compare Tool</title>
+		<meta name="keywords" content="salesforce, salesforce.com, force.com, compare, data, sfdatacompare" />
+  		<meta name="description" content="Compare data from objects between two Salesforce Orgs." />
+  		<meta name="author" content="Ben Edwards (ben@benedwards.co.nz)" />
+  		<meta charset="UTF-8" />
+
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script type="text/javascript" src="/static/js/main.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  	</head>
+
+  	<body>
+
+        <div style="padding:20px 40px;">
+
+      		{% if error %}
+
+                <h2>Error</h2>
+
+  			    <div class="alert alert-danger" role="alert">
+                    There was an error authorising your login:<br/>
+                    <strong>{{ error_message }}</strong>
+                    <br/><br/>
+                    Please close this window and try again.
+                </div>
+
+                <button onclick="window.close();">Close</button>
+
+      		{% else %}
+
+                <h2>Success</h2>
+
+                <div class="alert alert-success" role="alert">
+                    Your authorisation has been successful. Please wait while your details are loaded.
+                </div>
+
+                <button onclick="window.close();">Close</button>
+
+      			<script>
+      				window.opener.updateOrgDetails(
+      					'{{ org_choice }}',
+      					'{{ username }}', 
+      					'{{ org_name }}', 
+      					'{{ org.id }}', 
+      					'{{ email }}'
+      				);
+
+                    setTimeout(function() {
+                        window.close();
+                    },
+                        2000
+                    );
+      			</script>
+
+      		{% endif %}
+
+            <iframe src="https://login.salesforce.com/secur/logout.jsp" width="0" height="0" style="display:none;"></iframe>
+            <iframe src="https://test.salesforce.com/secur/logout.jsp" width="0" height="0" style="display:none;"></iframe>
+            <iframe src="{{ instance_url }}/secur/logout.jsp" width="0" height="0" style="display:none;"></iframe>
+
+        </div>
+
+  	</body>
+
+</html>

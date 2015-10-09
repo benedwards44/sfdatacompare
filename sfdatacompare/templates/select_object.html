@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h1>Salesforce Data Compare</h1>
+
+	<p>
+		Select an object from the list below and then tick the fields you want to use to compare the data to. It is recommended to only select fields that aren't unique to an Org. Eg. Id and auto-number fields.
+	</p>
+	<p>
+		Note: This will only show objects and fields that exist in both environments.
+	</p>
+
+	<hr />
+
+	<div ng-app="selectObjectsApp">
+
+		<div ng-controller="SelectObjectsController" ng-init="init('{{ job.random_id }}')">
+
+			<div class="col-md-3">
+				<h2 class="no-margin">Select Object</h2>
+			</div>
+
+			<div class="col-md-6">
+				<select class="form-control" id="object-select" ng-model="objectId" ng-change="objectChange()">
+					<option value="">-- Select Option --</option>
+					{% for object in job.sorted_objects %}
+						<option value="{{ object.id }}">{{ object.label }} ({{ object.api_name }})</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			<div class="col-md-12" id="field-select">
+
+				<br/><br/>
+
+				{% verbatim %}
+
+				<div class="col-md-12">
+
+					<div class="col-md-6">
+						<h3 class="no-margin">Select Fields</h3>
+					</div>
+
+					<div class="col-md-6 text-right">
+						<button class="btn btn-success" ng-click="compareData()">
+							Compare Data &nbsp;&nbsp; 
+							<span class="glyphicon glyphicon-play"></span>
+						</button>
+					</div>
+
+					<div class="col-md-12">
+
+						<hr/>
+
+						<table class="table table-hover table-striped" id="fields_table">
+
+					    	<thead>
+					    		<tr>
+					    			<th width="1%">
+										<input type="checkbox" ng-model="checkAll" ng-change="checkAllChange()" />
+									</th>
+						    		<th>Label</th>
+						    		<th>API Name</th>
+						    		<th>Type</th>
+						    	</tr>
+					    	</thead>
+
+					    	<tbody>
+
+					    		<tr ng-repeat="field in fields">
+
+					    			<td>
+					    				<input type="checkbox" ng-model="field.checked" />
+					    			</td>
+					    			<td>{{ field.label }}</td>
+					    			<td>{{ field.api_name }}</td>
+					    			<td>{{ field.type }}</td>
+					    		</tr>
+
+					    	</tbody>
+
+					    </table>
+
+					</div>
+
+				</div>
+
+			    {% endverbatim %}
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	    	<div class="modal-content">
+	      		<div class="modal-header"></div>
+	      		<div class="modal-body"></div>
+	      		<div class="modal-footer"></div>
+	    	</div>
+	  	</div>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+	<!-- Angular scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.min.js"></script>
+
+	<!-- Angular controller -->
+	<script src="/static/js/select-object-controller.js"></script>
+
+{% endblock %}

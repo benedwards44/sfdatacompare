@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<div class="col-md-6">
+		<h1>Salesforce Data Compare</h1>
+	</div>
+
+	<div ng-app="compareResultsApp">
+
+		<div ng-controller="CompareResultsController" ng-init="init('{{ job.random_id }}','{{ job.object_id }}','{{ job.fields }}')">
+
+			<div class="col-md-6 text-right">
+				<a href="/select-object/{{ job.random_id }}/" class="btn btn-info" style="margin-top: 20px;">
+					<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+					&nbsp; Select Another Object
+				</a>
+				<a href="#" class="btn btn-warning" style="margin-top: 20px;" ng-click="rerunJob()">
+					Rerun &nbsp;
+					<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+				</a>
+			</div>
+
+			<div class="col-md-12">
+
+				<br/>
+
+				<p>
+					And the results are in! The information below displays a comparison of the records between the two orgs, for the selected object and the selected fields.
+				</p>
+
+				<hr/>
+
+				<table class="table table-hover table-striped">
+					<tr>
+						<th><h4 class="no-margin">Object</h4></th>
+						<td colspan="2">{{ job.object_label }} ({{ job.object_name }})</td>
+					</tr>
+					<tr>
+						<th><h4 class="no-margin">Fields</h4></th>
+						<td colspan="2">{{ job.fields }}</td>
+					</tr>
+				</table>
+
+				<br/>
+
+				<table class="table table-hover table-striped">
+					<tr>
+						<td></td>
+						<th><h4 class="no-margin">{{ job.sorted_orgs.0.username }}</h4></th>
+						<th><h4 class="no-margin">{{ job.sorted_orgs.1.username }}</h4></th>
+					</tr>
+					<tr>
+						<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in the object"># Records</span></th>
+						<td>{{ job.row_count_org_one }}</td>
+						<td>{{ job.row_count_org_two }}</td>
+					</tr>
+					<tr>
+						<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in one org, and also exists in the other"># Matching Rows</span></th>
+						<td>{{ job.matching_rows_count_org_one }}</td>
+						<td>{{ job.matching_rows_count_org_two }}</td>
+					</tr>
+					<tr>
+						<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in one org, but doesn't exist in the other"># Unmatching Rows</span></th>
+						<td>{{ job.unmatching_rows_count_org_one }}</td>
+						<td>{{ job.unmatching_rows_count_org_two }}</td>
+					</tr>
+
+				</table>
+
+				<hr/>
+
+				{% if job.unmatching_rows_count_org_one > 0 or job.unmatching_rows_count_org_two > 0 %}
+
+					<h2>Unmatched Records</h2>
+
+					<div class="unmatched-records">
+
+						<!-- Nav tabs -->
+					  	<ul class="nav nav-tabs" role="tablist">
+					    	<li role="presentation" class="active">
+					    		<a href="#orgone" aria-controls="orgone" role="tab" data-toggle="tab">
+					    			{{ job.sorted_orgs.0.username }}
+					    		</a>
+					    	</li>
+					    	<li role="presentation">
+					    		<a href="#orgtwo" aria-controls="orgtwo" role="tab" data-toggle="tab">
+					    			{{ job.sorted_orgs.1.username }}
+					    		</a>
+					    	</li>
+					 	</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content">
+
+							<div role="tabpanel" class="tab-pane active padding-10" id="orgone">
+
+								{% if job.unmatching_rows_count_org_one > 0 %}
+
+									{% verbatim %}
+
+									<table class="table table-striped table-hover" id="orgone_table">
+										<thead>
+											<tr>
+												<th ng-repeat="field in fields">{{ field }}</th>
+											</tr>
+										</thead>
+					    				<tbody>
+					    					<tr ng-repeat="record in org_one_records">
+					    						<td ng-repeat="field in fields">
+					    							{{ record[field] }}
+					    						</td>
+					    					</tr>
+					    				</tbody>
+									</table>
+
+					    			{% endverbatim %}
+
+								{% else %}
+
+									<div role="alert" class="alert alert-success">
+										There are no unmatched records for this Org.
+									</div>
+
+								{% endif %}
+
+							</div>
+
+					    	<div role="tabpanel" class="tab-pane padding-10" id="orgtwo">
+
+					    		{% if job.unmatching_rows_count_org_two > 0 %}
+
+					    			{% verbatim %}
+
+					    			<table class="table table-striped table-hover" id="orgtwo_table">
+					    				<thead ng-repeat="field in fields">
+											<th>{{ field }}</th>
+										</thead>
+					    				<tbody></tbody>
+									</table>
+
+									{% endverbatim %}
+					    
+								{% else %}
+
+									<div role="alert" class="alert alert-success">
+										There are no unmatched records for this Org.
+									</div>
+
+								{% endif %}
+					    	
+				    		</div>
+
+					  	</div>
+
+					</div>
+
+				{% else %}
+
+					<div role="alert" class="alert alert-success">
+						Congrats! It looks like all your data is matching.
+					</div>
+
+				{% endif %}
+
+				<br/><br/><br/><br/>
+
+			</div>
+
+		</div>
+
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+	<!-- Angular scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.min.js"></script>
+
+	<!-- Angular controller -->
+	<script src="/static/js/compare-data-results-controller.js"></script>
+
+{% endblock %}
