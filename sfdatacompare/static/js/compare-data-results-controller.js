@@ -4,7 +4,7 @@
 
 var compareResultsApp = angular.module("compareResultsApp", ['ngRoute', 'ngResource']);
 
-compareResultsApp.controller("CompareResultsController", function($scope) 
+compareResultsApp.controller("CompareResultsController", function($scope, $http) 
 {
 
 	// On initation of controller
