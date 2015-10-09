@@ -23,7 +23,7 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
     	$http(
         {
             method: 'GET',
-            url: '/unmatched-rows/' + $scope.job_id + '/1/',
+            url: '/unmatched-rows/' + $scope.job_id + '/0/',
         }).
         success(function(data, status) 
         {
@@ -40,7 +40,7 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
     	$http(
         {
             method: 'GET',
-            url: '/unmatched-rows/' + $scope.job_id + '/2/',
+            url: '/unmatched-rows/' + $scope.job_id + '/1/',
         }).
         success(function(data, status) 
         {
