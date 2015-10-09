@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
 {% block content %}
 
 	<div class="col-md-6">
@@ -52,18 +54,18 @@
 					</tr>
 					<tr>
 						<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in the object"># Records</span></th>
-						<td>{{ job.row_count_org_one }}</td>
-						<td>{{ job.row_count_org_two }}</td>
+						<td>{{ job.row_count_org_one|intcomma }}</td>
+						<td>{{ job.row_count_org_two|intcomma }}</td>
 					</tr>
 					<tr>
 						<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in one org, and also exists in the other"># Matching Rows</span></th>
-						<td>{{ job.matching_rows_count_org_one }}</td>
-						<td>{{ job.matching_rows_count_org_two }}</td>
+						<td>{{ job.matching_rows_count_org_one|intcomma }}</td>
+						<td>{{ job.matching_rows_count_org_two|intcomma }}</td>
 					</tr>
 					<tr>
 						<th><span data-toggle="tooltip" data-placement="top" title="The number of records that exist in one org, but doesn't exist in the other"># Unmatching Rows</span></th>
-						<td>{{ job.unmatching_rows_count_org_one }}</td>
-						<td>{{ job.unmatching_rows_count_org_two }}</td>
+						<td>{{ job.unmatching_rows_count_org_one|intcomma }}</td>
+						<td>{{ job.unmatching_rows_count_org_two|intcomma }}</td>
 					</tr>
 
 				</table>
