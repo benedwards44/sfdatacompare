@@ -446,13 +446,7 @@ def get_unmatched_rows(request, job_id, org_no):
 	job = get_object_or_404(Job, random_id = job_id)
 
 	# List of records to return
-	unmatched_records = []
-
-	# Iterate over data
-	for record in job.sorted_orgs()[org_no].unmatched_records():
-
-		# Add to list
-		unmatched_records.append(record.data)
+	unmatched_records = job.sorted_orgs()[org_no].unmatched_records().values_list('data', flat=True)))
 
 	# Return records to page
 	return HttpResponse(json.dumps(unmatched_records), content_type = 'application/json')
