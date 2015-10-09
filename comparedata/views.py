@@ -450,6 +450,7 @@ def get_unmatched_rows(request, job_id, org_no):
 	unmatched_records = job.sorted_orgs()
 
 	# Return records to page
-	return HttpResponse(json.dumps(unmatched_records), content_type = 'application/json')
+	#return HttpResponse(json.dumps(unmatched_records), content_type = 'application/json')
+	return HttpResponse(unmatched_records)
 
 	
