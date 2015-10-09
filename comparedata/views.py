@@ -448,10 +448,13 @@ def get_unmatched_rows(request, job_id, org_no):
 	# List of records to return
 	unmatched_records = []
 
+	# Iterate over data
 	for record in job.sorted_orgs()[int(org_no)].unmatched_records().values_list('data', flat=True):
+
+		# Convert to JSON
 		unmatched_records.append(json.dumps(record))
 
 	# Return records to page
-	return HttpResponse(unmatched_records, content_type = 'application/json')
+	return HttpResponse(json.dumps(unmatched_records), content_type = 'application/json')
 
 	
