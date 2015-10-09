@@ -31,7 +31,7 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
         success(function(data, status) 
         {
         	for (var i=0; i < data.length; i++) {
-            	console.log(data[i].Name);
+            	console.log(data[i]);
             }
         }).
         error(function(data, status) 
@@ -50,7 +50,7 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
         success(function(data, status) 
         {
             for (var i=0; i < data.length; i++) {
-            	console.log(data[i].Name);
+            	console.log(data[i]);
             }
         }).
         error(function(data, status) 
