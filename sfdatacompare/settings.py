@@ -25,7 +25,7 @@ PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '%5p4$z7)d$urxka+rn%*v2k(+nf-rle*l2swxm+6jqbcetgqrs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ADMINS = (
     ('Ben Edwards', 'ben@benedwards.co.nz'),
