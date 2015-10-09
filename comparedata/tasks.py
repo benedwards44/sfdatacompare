@@ -17,7 +17,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfdatacompare.settings')
 app = Celery('tasks', broker=os.environ.get('REDIS_URL', 'redis://localhost'))
 
 from django.conf import settings
-from comparedata.models import Job, Org, Object, ObjectField
+from comparedata.models import Job, Org, Object, ObjectField, UnmatchedRecord
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -295,18 +295,53 @@ def compare_data_task(job, object, fields):
 
 				# Iterate over list one and match against the 2nd list
 				for value in org_one_records_distinct:
+
+					# If the row from the 1st list exists in the 2nd list
 					if value in org_two_records_distinct:
+
+						# Increment the match count
 						job.matching_rows_count_org_one = job.matching_rows_count_org_one + 1
+
 					else:
+
+						# Otherwise increment the non-match count
 						job.unmatching_rows_count_org_one = job.unmatching_rows_count_org_one + 1
+
+						# Create a unmatched record
+						unmatched_record = UnmatchedRecord()
+						unmatched_record.job = job
+						unmatched_record.org = org_one
+
+						# Populate the data with the data array
+						unmatched_record.data = str(org_one_records_map[value])
+
+						# Save the record
+						unmatched_record.save()
 
 				# Iterate over list two and match against the 1st list
 				for value in org_two_records_distinct:
+
+					# If the row from the 2nd list exists in the first list
 					if value in org_one_records_distinct:
+
+						# Increment the match count
 						job.matching_rows_count_org_two = job.matching_rows_count_org_two + 1
+
 					else:
+
+						# Increment the unmatch count
 						job.unmatching_rows_count_org_two = job.unmatching_rows_count_org_two + 1
 
+						# Create a unmatched record
+						unmatched_record = UnmatchedRecord()
+						unmatched_record.job = job
+						unmatched_record.org = org_two
+
+						# Populate the data with the data array
+						unmatched_record.data = str(org_one_records_map[value])
+
+						# Save the record
+						unmatched_record.save()
 
 				# Set the status to finished
 				job.status = 'Finished'
