@@ -30,9 +30,7 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
         }).
         success(function(data, status) 
         {
-        	angular.forEach(data, function(record) {
-            	console.log(record["Name"]);
-            });
+        	$scope.one_one_records = data;
         }).
         error(function(data, status) 
         {

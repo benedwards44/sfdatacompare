@@ -103,7 +103,13 @@
 										<thead ng-repeat="field in fields">
 											<th>{{ field }}</th>
 										</thead>
-					    				<tbody></tbody>
+					    				<tbody>
+					    					<tr ng-repeat="field in fields">
+					    						<td ng-repeat="record in one_one_records">
+					    							{{ data[field] }}
+					    						</td>
+					    					</tr>
+					    				</tbody>
 									</table>
 
 					    			{% endverbatim %}
