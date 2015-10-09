@@ -8,7 +8,7 @@
 
 	<div ng-app="compareResultsApp">
 
-		<div ng-controller="CompareResultsController" ng-init="init('{{ job.random_id }}','{{ job.object_id }}')">
+		<div ng-controller="CompareResultsController" ng-init="init('{{ job.random_id }}','{{ job.object_id }}','{{ job.fields }}'')">
 
 			<div class="col-md-6 text-right">
 				<a href="/select-object/{{ job.random_id }}/" class="btn btn-info" style="margin-top: 20px;">

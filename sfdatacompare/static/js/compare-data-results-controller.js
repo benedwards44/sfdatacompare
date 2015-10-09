@@ -8,13 +8,16 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
 {
 
 	// On initation of controller
-    $scope.init = function(job_id, object_id)
+    $scope.init = function(job_id, object_id, fields)
     {
         // Job ID passed through from view
         $scope.job_id = job_id;
 
         // Object ID passed from the view
         $scope.object_id = object_id
+
+        // The list of fields that were matched
+        $scope.fields = fields.split(',')
 
         // Array of unmatched records to display
         $scope.one_one_records = [];
