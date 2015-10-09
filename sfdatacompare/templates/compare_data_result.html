@@ -64,6 +64,53 @@
 
 		</table>
 
+		<hr/>
+
+		<h2>Unmatched Records</h2>
+
+		<div class="unmatched-records">
+
+			<!-- Nav tabs -->
+		  	<ul class="nav nav-tabs" role="tablist">
+		    	<li role="presentation" class="active">
+		    		<a href="#orgone" aria-controls="orgone" role="tab" data-toggle="tab">
+		    			{{ job.sorted_orgs.0.username }}
+		    		</a>
+		    	</li>
+		    	<li role="presentation">
+		    		<a href="#orgtwo" aria-controls="orgtwo" role="tab" data-toggle="tab">
+		    			{{ job.sorted_orgs.1.username }}
+		    		</a>
+		    	</li>
+		 	</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+
+				<div role="tabpanel" class="tab-pane active" id="orgone">
+		    	
+					{% for record in job.sorted_orgs.0.unmatched_records %}
+
+						{{ record.data }}
+
+					{% endfor %}
+
+				</div>
+
+		    	<div role="tabpanel" class="tab-pane" id="orgtwo">
+
+		    		{% for record in job.sorted_orgs.1.unmatched_records %}
+
+						{{ record.data }}
+
+					{% endfor %}
+		    	
+	    		</div>
+
+		  	</div>
+
+		</div>
+
 	</div>
 
 {% endblock %}
