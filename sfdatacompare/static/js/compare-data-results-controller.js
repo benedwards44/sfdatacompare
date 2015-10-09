@@ -19,8 +19,8 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
         // The list of fields that were matched
         $scope.fields = fields.split(',')
 
-        // Array of unmatched records to display
-        $scope.one_one_records = [];
+        // Array of unmatched records from org one
+        $scope.org_one_records = [];
 
         // Execute AJAX call
     	$http(
@@ -30,14 +30,15 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
         }).
         success(function(data, status) 
         {
-        	$scope.one_one_records = data;
+        	$scope.org_one_records = data;
         }).
         error(function(data, status) 
         {
             $('#orgone').html('<div role="alert" class="alert alert-danger">There was an error getting the unmatched rows for this org.');
         });
 
-        $scope.one_two_records = [];
+        // Array of unmatched records from org two
+        $scope.org_two_records = [];
 
         // Execute AJAX call
     	$http(
@@ -47,7 +48,7 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
         }).
         success(function(data, status) 
         {
-            
+            $scope.org_two_records = data;
         }).
         error(function(data, status) 
         {
