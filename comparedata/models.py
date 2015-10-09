@@ -30,6 +30,8 @@ class Job(models.Model):
 	def sorted_objects(self):
 		return self.object_set.order_by('label')
 
+	def unmatched_records(self):
+		return self.unmatchedrecord_set.all()
 
 class Org(models.Model):
 	"""

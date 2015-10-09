@@ -433,6 +433,9 @@ def execute_data_compare(request, job_id, object_id):
 	job.status = 'Begin Data Compare'
 	job.save()
 
+	# Delete existing unmatched records
+	job.unmatched_records().delete()
+
 	# Execute the job
 	compare_data_task.delay(job, object, fields)
 
