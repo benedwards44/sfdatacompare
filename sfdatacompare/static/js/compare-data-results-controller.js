@@ -31,7 +31,7 @@ compareResultsApp.controller("CompareResultsController", function($scope, $http)
         success(function(data, status) 
         {
         	angular.forEach(data, function(record) {
-            	console.log(record.Name);
+            	console.log(record);
             });
         }).
         error(function(data, status) 
