@@ -97,11 +97,17 @@
 
 								{% if job.unmatching_rows_count_org_one > 0 %}
 
+									{% verbatim %}
+
 									<table class="table table-striped table-hover" id="orgone_table">
-										<thead></thead>
+										<thead ng-repeat="field in fields">
+											<th>{{ field }}</th>
+										</thead>
 					    				<tbody></tbody>
 									</table>
-					    
+
+					    			{% endverbatim %}
+
 								{% else %}
 
 									<div role="alert" class="alert alert-success">
@@ -116,10 +122,16 @@
 
 					    		{% if job.unmatching_rows_count_org_two > 0 %}
 
+					    			{% verbatim %}
+
 					    			<table class="table table-striped table-hover" id="orgtwo_table">
-					    				<thead></thead>
+					    				<thead ng-repeat="field in fields">
+											<th>{{ field }}</th>
+										</thead>
 					    				<tbody></tbody>
 									</table>
+
+									{% endverbatim %}
 					    
 								{% else %}
 
