@@ -196,7 +196,7 @@ class LoadingPage(View):
 
 		if job.status == 'Not Started':
 
-			job.status = 'Downloading Objects'
+			job.status = 'Start Object Download'
 			job.save()
 
 			# Begin download of objects and fields

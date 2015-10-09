@@ -28,6 +28,9 @@ def get_objects_task(job):
 		Async method to query objects for the given orgs
 	"""
 
+	job.status = 'Downloading Objects'
+	job.save()
+
 	# List of standard objects to include
 	standard_objects = (
 		'Account',
