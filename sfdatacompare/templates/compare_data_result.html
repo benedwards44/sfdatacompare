@@ -104,9 +104,9 @@
 											<th>{{ field }}</th>
 										</thead>
 					    				<tbody>
-					    					<tr ng-repeat="field in fields">
-					    						<td ng-repeat="record in one_one_records">
-					    							{{ data[field] }}
+					    					<tr ng-repeat="record in org_one_records">
+					    						<td ng-repeat="field in fields">
+					    							{{ record[field] }}
 					    						</td>
 					    					</tr>
 					    				</tbody>
