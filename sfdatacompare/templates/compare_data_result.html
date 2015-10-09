@@ -66,50 +66,82 @@
 
 		<hr/>
 
-		<h2>Unmatched Records</h2>
+		{% if job.unmatching_rows_count_org_one > 0 or job.unmatching_rows_count_org_two > 0 %}
 
-		<div class="unmatched-records">
+			<h2>Unmatched Records</h2>
 
-			<!-- Nav tabs -->
-		  	<ul class="nav nav-tabs" role="tablist">
-		    	<li role="presentation" class="active">
-		    		<a href="#orgone" aria-controls="orgone" role="tab" data-toggle="tab">
-		    			{{ job.sorted_orgs.0.username }}
-		    		</a>
-		    	</li>
-		    	<li role="presentation">
-		    		<a href="#orgtwo" aria-controls="orgtwo" role="tab" data-toggle="tab">
-		    			{{ job.sorted_orgs.1.username }}
-		    		</a>
-		    	</li>
-		 	</ul>
+			<div class="unmatched-records">
 
-			<!-- Tab panes -->
-			<div class="tab-content">
+				<!-- Nav tabs -->
+			  	<ul class="nav nav-tabs" role="tablist">
+			    	<li role="presentation" class="active">
+			    		<a href="#orgone" aria-controls="orgone" role="tab" data-toggle="tab">
+			    			{{ job.sorted_orgs.0.username }}
+			    		</a>
+			    	</li>
+			    	<li role="presentation">
+			    		<a href="#orgtwo" aria-controls="orgtwo" role="tab" data-toggle="tab">
+			    			{{ job.sorted_orgs.1.username }}
+			    		</a>
+			    	</li>
+			 	</ul>
 
-				<div role="tabpanel" class="tab-pane active" id="orgone">
-		    	
-					{% for record in job.sorted_orgs.0.unmatched_records %}
+				<!-- Tab panes -->
+				<div class="tab-content">
 
-						{{ record.data }}
+					<div role="tabpanel" class="tab-pane active" id="orgone">
 
-					{% endfor %}
+						{% if job.unmatching_rows_count_org_one > 0 %}
+			    	
+							{% for record in job.sorted_orgs.0.unmatched_records %}
 
-				</div>
+								{{ record.data }}
 
-		    	<div role="tabpanel" class="tab-pane" id="orgtwo">
+							{% endfor %}
 
-		    		{% for record in job.sorted_orgs.1.unmatched_records %}
+						{% else %}
 
-						{{ record.data }}
+							<div role="alert" class="alert alert-success">
+								There are no unmatched records for this Org.
+							</div>
 
-					{% endfor %}
-		    	
-	    		</div>
+						{% endif %}
 
-		  	</div>
+					</div>
 
-		</div>
+			    	<div role="tabpanel" class="tab-pane" id="orgtwo">
+
+			    		{% if job.unmatching_rows_count_org_two > 0 %}
+			    	
+							{% for record in job.sorted_orgs.1.unmatched_records %}
+
+								{{ record.data }}
+
+							{% endfor %}
+
+						{% else %}
+
+							<div role="alert" class="alert alert-success">
+								There are no unmatched records for this Org.
+							</div>
+
+						{% endif %}
+			    	
+		    		</div>
+
+			  	</div>
+
+			</div>
+
+		{% else %}
+
+			<div role="alert" class="alert alert-success">
+				Congrats! It looks like all your data is matching.
+			</div>
+
+		{% endif %}
+
+		<br/><br/><br/><br/>
 
 	</div>
 
