@@ -288,9 +288,6 @@ def compare_data_task(job, object, fields):
 						# Add the string to a map of the record
 						org_one_records_map[unique_string] = record
 
-					if not 'nextRecordsUrl' in org_one_json:
-						break
-
 
 				# List of concatenated fields from the 2nd org
 				org_two_records_distinct = []
@@ -345,9 +342,6 @@ def compare_data_task(job, object, fields):
 
 						# Add the string to a map of the record
 						org_two_records_map[unique_string] = record
-
-					if not 'nextRecordsUrl' in org_two_json:
-						break
 
 				# Now count matching and unmatching records
 				job.matching_rows_count_org_one = 0
