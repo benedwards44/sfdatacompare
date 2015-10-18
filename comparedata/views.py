@@ -427,7 +427,7 @@ def execute_data_compare(request, job_id, object_id):
 	else:
 
 		# Get the fields from the job
-		fields = job.fields.split(',')
+		fields = job.fields.split(', ')
 
 	# Update the status
 	job.status = 'Begin Data Compare'
