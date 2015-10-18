@@ -239,8 +239,11 @@ def compare_data_task(job, object, fields):
 				org_one_records_distinct = []
 				org_one_records_map = {}
 
+				# Load the response as JSON object
+				org_one_json = org_one_records.json()
+
 				# Iterate over 1st record
-				for record in org_one_records.json()['records']:
+				for record in org_one_json['records']:
 
 					unique_string = ''
 
@@ -257,13 +260,44 @@ def compare_data_task(job, object, fields):
 					# Add the string to a map of the record
 					org_one_records_map[unique_string] = record
 
+				# If more than 2k records, need to query for the next batch, and continuing until 
+				while 'nextRecordsUrl' in org_one_json:
+
+					org_one_json = requests.get(
+						org_one.instance_url + org_one_json['nextRecordsUrl'],
+						headers={
+							'Authorization': 'Bearer ' + org_one.access_token, 
+							'content-type': 'application/json'
+						}
+					).json()
+
+					for record in org_one_json['records']:
+
+						unique_string = ''
+
+						# Iterate over the fields
+						for field in fields:
+							unique_string += str(record[field])
+
+						# Convert to hash
+						unique_string = hash(unique_string)
+
+						# Add the string to the unique list
+						org_one_records_distinct.append(unique_string)
+
+						# Add the string to a map of the record
+						org_one_records_map[unique_string] = record
+
 
 				# List of concatenated fields from the 2nd org
 				org_two_records_distinct = []
 				org_two_records_map = {}
 
+				# Load the response as JSON object
+				org_two_json = org_two_records.json()
+
 				# Iterate over 2nd record
-				for record in org_two_records.json()['records']:
+				for record in org_two_json['records']:
 
 					unique_string = ''
 
@@ -279,6 +313,37 @@ def compare_data_task(job, object, fields):
 
 					# Add the string to a map of the record
 					org_two_records_map[unique_string] = record
+
+				# If more than 2k records, need to query for the next batch, and continuing until 
+				while 'nextRecordsUrl' in org_two_json:
+
+					org_two_json = requests.get(
+						org_two.instance_url + org_two_json['nextRecordsUrl'],
+						headers={
+							'Authorization': 'Bearer ' + org_two.access_token, 
+							'content-type': 'application/json'
+						}
+					).json()
+
+					# Iterate over 2nd record
+					for record in org_two_json['records']:
+
+						unique_string = ''
+
+						# Iterate over the fields
+						for field in fields:
+							unique_string += str(record[field])
+
+						# Convert to hash
+						unique_string = hash(unique_string)
+
+						# Add the string to the unique list
+						org_two_records_distinct.append(unique_string)
+
+						# Add the string to a map of the record
+						org_two_records_map[unique_string] = record
+
+
 
 				# Now count matching and unmatching records
 				job.matching_rows_count_org_one = 0
