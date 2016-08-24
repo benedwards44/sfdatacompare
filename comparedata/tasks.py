@@ -63,6 +63,8 @@ def get_objects_task(job):
 		'Solution',
 		'Task',
 		'User',
+		'WorkOrder',
+		'WorkOrderLineItem',
 	)
 
 	# List to determine if exists in other Org
