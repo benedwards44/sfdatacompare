@@ -28,7 +28,7 @@ SECRET_KEY = '%5p4$z7)d$urxka+rn%*v2k(+nf-rle*l2swxm+6jqbcetgqrs'
 DEBUG = False
 
 ADMINS = (
-    ('Ben Edwards', 'ben@benedwards.co.nz'),
+    ('Ben Edwards', 'ben@edwards.nz'),
 )
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -105,7 +105,7 @@ USE_L10N = True
 USE_TZ = True
 
 POSTMARK_API_KEY     = os.environ.get('POSTMARK_API_KEY')
-POSTMARK_SENDER      = 'ben@benedwards.co.nz'
+POSTMARK_SENDER      = 'ben@edwards.nz'
 POSTMARK_TEST_MODE   = False
 POSTMARK_TRACK_OPENS = False
 
