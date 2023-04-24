@@ -46,8 +46,10 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+] 
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 ROOT_URLCONF = 'sfdatacompare.urls'
 
