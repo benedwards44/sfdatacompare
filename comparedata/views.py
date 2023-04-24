@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.detail import View
 from django.views.generic.edit import FormView
 from django.conf import settings
@@ -13,10 +13,6 @@ import uuid
 import requests
 import json	
 import ast
-
-reload(sys)
-sys.setdefaultencoding("utf-8")
-
 
 class IndexView(FormView):
 	"""
@@ -447,7 +443,7 @@ def execute_data_compare(request, job_id, object_id):
 def get_unmatched_rows(request, job_id, org_no):
 
 	# Query for the job and object
-	job = get_object_or_404(Job, random_id = job_id)
+	job = get_object_or_404(Job, random_id=job_id)
 
 	# List of records to return
 	unmatched_records = []
@@ -459,6 +455,6 @@ def get_unmatched_rows(request, job_id, org_no):
 		unmatched_records.append(json.loads(record))
 
 	# Return records to page
-	return HttpResponse(json.dumps(unmatched_records), content_type = 'application/json')
+	return HttpResponse(json.dumps(unmatched_records), content_type='application/json')
 
 	

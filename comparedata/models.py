@@ -38,7 +38,7 @@ class Org(models.Model):
 		Object to hold org information for a job
 	"""
 
-	job = models.ForeignKey(Job, blank=True, null=True)
+	job = models.ForeignKey(Job, blank=True, null=True, on_delete=models.deletion.CASCADE)
 	org_number = models.PositiveSmallIntegerField()
 	access_token = models.CharField(max_length=255)
 	instance_url = models.CharField(max_length=255)
@@ -57,7 +57,7 @@ class Object(models.Model):
 		Object to hold the defaults of a Salesforce object
 	"""
 
-	job = models.ForeignKey(Job)
+	job = models.ForeignKey(Job, on_delete=models.deletion.CASCADE)
 	label = models.CharField(max_length=255)
 	api_name = models.CharField(max_length=255)
 
@@ -70,7 +70,7 @@ class ObjectField(models.Model):
 		Object which holds the list of fields for the comparison
 	"""
 
-	object = models.ForeignKey(Object)
+	object = models.ForeignKey(Object, on_delete=models.deletion.CASCADE)
 	label = models.CharField(max_length=255)
 	api_name = models.CharField(max_length=255)
 	type = models.CharField(max_length=255)
@@ -81,7 +81,7 @@ class UnmatchedRecord(models.Model):
 		Object which holds a record that exists in one Org and not the other 
 	"""
 
-	job = models.ForeignKey(Job)
-	org = models.ForeignKey(Org)
+	job = models.ForeignKey(Job, on_delete=models.deletion.CASCADE)
+	org = models.ForeignKey(Org, on_delete=models.deletion.CASCADE)
 	data = models.TextField() # The JSON array of fields and field value
 

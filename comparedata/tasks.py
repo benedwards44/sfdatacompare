@@ -1,17 +1,9 @@
 from __future__ import absolute_import
 from celery import Celery
 import os
-import json	
-import ast
 import requests
 import datetime
-import time
-import sys
-import sqlite3
-import StringIO
-import glob
 import traceback
-import hashlib
 
 # Celery config
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sfdatacompare.settings')
@@ -20,8 +12,6 @@ app = Celery('tasks', broker=os.environ.get('REDIS_URL', 'redis://localhost'))
 from django.conf import settings
 from comparedata.models import Job, Org, Object, ObjectField, UnmatchedRecord
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
 
 @app.task
 def get_objects_task(job): 
